@@ -51,7 +51,7 @@
         margin: 10px;
       }
 
-      /* Style the links inside the topnav */
+      /* links inside the topnav */
       .topnav a {
         color: #f2f2f2;
         padding: 10px 14px;
@@ -59,9 +59,8 @@
         font-size: 18px;
       }
 
-      /* Change the color of links on hover */
       .topnav a:hover {
-        background-color: #fca311; /* Amber highlight */
+        background-color: #fca311;
         color: black;
         border-radius: 15px;
       }
@@ -82,9 +81,9 @@
 
       /* PROFILE / DESTINATIONS */
       .profile {
-        background-color: #a8dadc; /* Light Cyan */
+        background-color: #a8dadc;
         padding: 20px;
-        background-image: url("./images/pexels-bg.jpg"); 
+        background-image: url("./images/travel_bg.jpg"); /* pexels-bg -> travel_bg */
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
@@ -92,7 +91,7 @@
 
       .profile_title {
         text-align: center;
-        color: #1d3557; /* Dark Blue Text */
+        color: #1d3557;
         margin-bottom: 20px;
       }
 
@@ -105,7 +104,7 @@
       }
 
       .box {
-        background-color: #457b9d; /* Slate Blue */
+        background-color: #457b9d;
         width: 260px;
         color: white;
         padding: 10px;
@@ -130,7 +129,7 @@
 
       /* GALLERY */
       .gallery {
-        background-color: #e63946; /* Red for emphasis */
+        background-color: #e63946;
         padding: 20px;
         text-align: center;
         color: white;
@@ -168,7 +167,7 @@
 
       /* CONTACT */
       .contact {
-        background-color: #f1faee; /* Pale White */
+        background-color: #f1faee;
         padding: 20px;
       }
 
@@ -208,7 +207,7 @@
         margin-top: 10px;
       }
 
-      /* media query to change layout when screen is wider than 880px */
+      /* layout change when screen wider than 880px */
       @media (min-width: 880px) {
         .profile_title {
           text-align: left;
@@ -228,12 +227,12 @@
       <div class="home" id="home">
         <!-- LOGO + TITLE -->
         <div class="logo-wrap">
-          <!-- Logo de la página -->
-          <img src="./images/ReDI_Logo.png" alt="Travel Logo" width="60" height="60">
+          <!-- usa logo.avif -->
+          <img src="./images/logo.avif" alt="Travel Logo" width="60" height="60">
           <h1>My Travel Adventures</h1>
         </div>
 
-        <!-- NAV + BOTÓN -->
+        <!-- NAV + BUTTON -->
         <div class="topnav">
           <a href="#home">🏠 Home</a>
           <a href="#gallery">🖼️ Gallery</a>
@@ -250,24 +249,22 @@
       <h1 class="profile_title">My Favorite Destinations</h1>
 
       <div class="box-container">
-        <!-- BOX 1 -->
-        <div class="box box-1">
-          <!-- Imagen del destino 1 -->
-          <!-- Cambia el archivo por la foto que quieras -->
-          <img src="./images/munich.jpg" alt="Munich, Germany">
+        <!-- BOX 1: Munich -->
+        <div class="box">
+          <img src="./images/Munich.jpg" alt="Munich, Germany">
           <h2>Munich, Germany</h2>
           <p>Historic and modern, famous for beer gardens and the Alps nearby.</p>
         </div>
 
-        <!-- BOX 2 -->
-        <div class="box box-2">
-          <img src="./images/kyoto.jpg" alt="Kyoto, Japan">
+        <!-- BOX 2: Kyoto -->
+        <div class="box">
+          <img src="./images/Kioto.jpg" alt="Kyoto, Japan">
           <h2>Kyoto, Japan</h2>
           <p>A city of temples, geishas, and beautiful cherry blossoms.</p>
         </div>
 
-        <!-- BOX 3 -->
-        <div class="box box-3">
+        <!-- BOX 3: Rio -->
+        <div class="box">
           <img src="./images/rio.jpg" alt="Rio de Janeiro, Brazil">
           <h2>Rio de Janeiro, Brazil</h2>
           <p>Beaches, samba, and the iconic Christ the Redeemer statue.</p>
@@ -282,16 +279,19 @@
 
       <div class="gallery-container">
         <div class="gallery-item">
-          <img src="./images/mountain-house.jpg" alt="Mountain house">
-          <p>Peaceful mountain cabin with sunrise views.</p>
+          <!-- travel background -->
+          <img src="./images/travel_bg.jpg" alt="Travel flatlay">
+          <p>Planning the next big adventure.</p>
         </div>
         <div class="gallery-item">
-          <img src="./images/tulips.jpg" alt="Tulips field">
-          <p>Colorful tulip fields on a sunny spring day.</p>
+          <!-- tulips -->
+          <img src="./images/tulips.jpg" alt="Tulip field">
+          <p>Endless fields of colorful tulips in spring.</p>
         </div>
         <div class="gallery-item">
+          <!-- night city -->
           <img src="./images/city-night.jpg" alt="City at night">
-          <p>City lights and skyline at night from a rooftop bar.</p>
+          <p>Neon lights and a futuristic city skyline at night.</p>
         </div>
       </div>
     </section>
