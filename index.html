@@ -1,1089 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Real Inventory Policy Simulator</title>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Travel Page</title>
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* global styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-</head>
+      /* 1. Cambio de Fuente para Títulos */
+      h1 {
+        font-family: Georgia, 'Times New Roman', Times, serif; 
+      }
 
-<body class="bg-gray-50 min-h-screen">
-  <!-- HEADER WITH LOGO -->
-  <header class="bg-white shadow mb-6">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-      <div class="flex items-center gap-3">
-        <!-- Logo: coloca tu imagen logo.png en la misma carpeta que este index.html -->
-        <img src="logo.png" alt="Inventory Simulator Logo"
-             class="h-10 w-10 rounded-full border border-blue-100 shadow-sm object-cover"/>
+      /* 1. Nuevo Color para el Header: Terracota */
+      header {
+        background-color: #A43F3F; /* Terracota oscuro */
+      }
+      .home {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .topnav {
+        margin: 15px;
+      }
+      /* Style the links inside the topnav */
+      .topnav a {
+        color: #f2f2f2;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 26px;
+      }
+      /* 1. Nuevo Color de Hover: Dorado Suave */
+      .topnav a:hover {
+        background-color: #FFC300; /* Dorado Suave */
+        color: #1A1A1A; /* Texto oscuro para mejor contraste */
+        border-radius: 15px;
+      }
 
-        <div>
-          <h1 class="text-2xl sm:text-3xl font-bold text-blue-700 flex items-center gap-2">
-            Real Inventory Policy Simulator
-          </h1>
-          <p class="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
-            <span>📦</span> Multi-SKU · EOQ / JIT / Min-Max · Flask API + Chart.js
-          </p>
-        </div>
-      </div>
+      /* 4. Ruta de Imagen Simplificada para el Fondo del Perfil */
+      .profile {
+        background-color: #a8dadc; 
+        padding: 10px;
+        background-image: url("./images/travel_bg.jpg"); /* Asume una imagen llamada travel_bg.jpg */
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+      }
+      .profile_title {
+        text-align: center;
+        color: #1d3557; 
+      }
+      .box-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+      }
+      
+      /* 2. Estilos para hacer los cuadros más grandes y añadir sombra */
+      .box {
+        background-color: #6C7A89; /* Gris azulado neutro */
+        height: 300px; /* Aumentado */
+        width: 350px; /* Aumentado */
+        color: white; 
+        padding: 15px; 
+        text-align: center;
+        margin: 20px;
+        border-radius: 10px;
+        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); /* Sombra añadida */
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+      }
 
-      <div class="flex items-center gap-2 text-[11px] text-gray-500">
-        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-blue-50 text-blue-700 font-medium">
-          🧪 Simulator v1.0
-        </span>
-      </div>
-    </div>
-  </header>
+      /* 4. Rutas de Imagen Simplificadas para cada caja (Destinations) */
+      .box-1 {
+        background-image: url("./images/munich.jpg"); 
+      }
 
-  <main class="max-w-6xl mx-auto px-4 pb-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+      .box-2 {
+        background-image: url("./images/kyoto.jpg");
+      }
 
-    <!-- LEFT: Scenario & SKUs -->
-    <section class="bg-white shadow rounded-lg p-4 space-y-4 lg:col-span-1">
-      <div class="flex items-center gap-2">
-        <span class="text-xl">🧮</span>
-        <h2 class="text-lg font-semibold text-gray-800">Scenario Setup</h2>
-      </div>
+      .box-3 {
+        background-image: url("./images/rio.jpg");
+      }
 
-      <div>
-        <label class="text-sm font-medium block flex items-center gap-1">
-          <span>📝</span>
-          <span>Scenario name</span>
-        </label>
-        <input id="scenarioName"
-               class="mt-1 w-full border border-gray-300 rounded px-2 py-1 text-sm"
-               placeholder="e.g. Baseline EOQ vs JIT"/>
-      </div>
+      /* 1. Fondo de la galería: Teal oscuro */
+      .gallery {
+        background-color: #4C99A0; /* Teal oscuro */ 
+        padding: 20px;
+        text-align: center;
+        color: white;
+      }
+      .gallery-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+      }
+      .gallery-item {
+        width: 300px;
+        border: 5px solid white;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+      }
 
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="text-sm font-medium block flex items-center gap-1">
-            <span>⏱️</span>
-            <span>Simulation horizon (days)</span>
-          </label>
-          <input id="simDays" type="number" min="10" max="365" value="120"
-                 class="mt-1 w-full border border-gray-300 rounded px-2 py-1 text-sm"/>
-        </div>
-        <div>
-          <label class="text-sm font-medium block flex items-center gap-1">
-            <span>🎯</span>
-            <span>Target service level (%)</span>
-          </label>
-          <input id="serviceLevel" type="number" min="80" max="99.9" value="95"
-                 class="mt-1 w-full border border-gray-300 rounded px-2 py-1 text-sm"/>
-        </div>
-      </div>
+      /* 3. Estilos para la nueva sección de Tips */
+      .tips {
+        background-color: #f1faee; /* Fondo blanco pálido */
+        padding: 40px 20px;
+        text-align: center;
+      }
+      .tips ul {
+        list-style-type: none;
+        padding: 0;
+        max-width: 600px;
+        margin: 20px auto;
+        text-align: left;
+      }
+      .tips li {
+        background-color: #A43F3F; /* Color de acento (Terracota) */
+        color: white;
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 18px;
+      }
+      
+      .contact {
+        background-color: #f1faee; 
+        height: 400px;
+        padding: 10px;
+      }
 
-      <!-- SKU 1 -->
-      <div class="border-t pt-3 mt-2">
-        <div class="flex items-center justify-between mb-2">
-          <h3 class="font-semibold text-blue-700 text-sm flex items-center gap-1">
-            <span>📦</span>
-            <span>SKU 1</span>
-          </h3>
-          <span class="text-[10px] text-gray-400">Core product</span>
-        </div>
+      label {
+        font-size: 24px;
+      }
+      input {
+        font-size: 24px;
+        padding: 5px;
+        margin: 10px;
+        background-color: lightgray;
+        border: 2px solid black;
+        border-radius: 4px;
+      }
+      input [type="submit"] {
+        font-size: 24px;
+        padding: 5px;
+      }
 
-        <div class="space-y-2">
-          <input id="sku1_name" class="w-full border border-gray-300 rounded px-2 py-1 text-sm"
-                 value="SKU-1" placeholder="Name (e.g. Sneaker A)"/>
+      /* media query to change layout when screen is wider than 880px */
+      @media (min-width: 880px) {
+        .profile_title {
+          text-align: left;
+        }
+        .home {
+          flex-direction: row;
+        }
+        /* 2. Añade espacio entre las cajas en pantallas grandes */
+        .box-container {
+          flex-direction: row;
+          gap: 30px; 
+        }
+      }
+    </style>
+  </head>
 
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="text-xs block text-gray-600 flex items-center gap-1">
-                <span>📈</span>
-                <span>Annual demand D</span>
-              </label>
-              <input id="sku1_D" type="number" value="10000"
-                     class="w-full border border-gray-300 rounded px-2 py-1 text-xs"/>
-            </div>
-            <div>
-              <label class="text-xs block text-gray-600 flex items-center gap-1">
-                <span>💸</span>
-                <span>Order cost S</span>
-              </label>
-              <input id="sku1_S" type="number" value="50"
-                     class="w-full border border-gray-300 rounded px-2 py-1 text-xs"/>
-            </div>
-            <div>
-              <label class="text-xs block text-gray-600 flex items-center gap-1">
-                <span>🏦</span>
-                <span>Holding cost H (per unit/year)</span>
-              </label>
-              <input id="sku1_H" type="number" value="5"
-                     class="w-full border border-gray-300 rounded px-2 py-1 text-xs"/>
-            </div>
-            <div>
-              <label class="text-xs block text-gray-600 flex items-center gap-1">
-                <span>🚚</span>
-                <span>Lead time (days)</span>
-              </label>
-              <input id="sku1_LT" type="number" value="7"
-                     class="w-full border border-gray-300 rounded px-2 py-1 text-xs"/>
-            </div>
-          </div>
+  <body>
+    <header>
+      <div class="home" id="home">
 
-          <div>
-            <label class="text-xs block text-gray-600 flex items-center gap-1">
-              <span>⚙️</span>
-              <span>Policy</span>
-            </label>
-            <select id="sku1_policy" class="w-full border border-gray-300 rounded px-2 py-1 text-xs">
-              <option value="EOQ">EOQ (Classic)</option>
-              <option value="JIT">JIT (Small Lots)</option>
-              <option value="MINMAX">Min-Max (s,S)</option>
-            </select>
-          </div>
-        </div>
-      </div>
+        <img src="./images/logo.png" alt="Travel Logo" width="50">
+        
+        <h1>My Travel Adventures</h1>
 
-      <!-- SKU 2 -->
-      <div class="border-t pt-3 mt-2">
-        <div class="flex items-center justify-between mb-2">
-          <h3 class="font-semibold text-emerald-700 text-sm flex items-center gap-1">
-            <span>📦</span>
-            <span>SKU 2</span>
-          </h3>
-          <span class="text-[10px] text-gray-400">Variant / second product</span>
-        </div>
+        <div class="topnav">
+          <a href="#home">Home</a>
+          <a href="#gallery">Gallery</a> 
+          <a href="#profile">Destinations</a> 
+          <a href="#tips">Tips</a>
+          <a href="#contact">Contact</a>
 
-        <div class="space-y-2">
-          <input id="sku2_name" class="w-full border border-gray-300 rounded px-2 py-1 text-sm"
-                 value="SKU-2" placeholder="Name (e.g. Sneaker B)"/>
+          <button onclick="alert('Ready to explore?')">Explore</button>
+        </div>     
+      </div>  
+    </header>
+    
+    <section class="profile" id="profile">
+      
+      <h1 class="profile_title">My Favorite Destinations</h1>
 
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="text-xs block text-gray-600 flex items-center gap-1">
-                <span>📈</span>
-                <span>Annual demand D</span>
-              </label>
-              <input id="sku2_D" type="number" value="6000"
-                     class="w-full border border-gray-300 rounded px-2 py-1 text-xs"/>
-            </div>
-            <div>
-              <label class="text-xs block text-gray-600 flex items-center gap-1">
-                <span>💸</span>
-                <span>Order cost S</span>
-              </label>
-              <input id="sku2_S" type="number" value="40"
-                     class="w-full border border-gray-300 rounded px-2 py-1 text-xs"/>
-            </div>
-            <div>
-              <label class="text-xs block text-gray-600 flex items-center gap-1">
-                <span>🏦</span>
-                <span>Holding cost H (per unit/year)</span>
-              </label>
-              <input id="sku2_H" type="number" value="3"
-                     class="w-full border border-gray-300 rounded px-2 py-1 text-xs"/>
-            </div>
-            <div>
-              <label class="text-xs block text-gray-600 flex items-center gap-1">
-                <span>🚚</span>
-                <span>Lead time (days)</span>
-              </label>
-              <input id="sku2_LT" type="number" value="5"
-                     class="w-full border border-gray-300 rounded px-2 py-1 text-xs"/>
-            </div>
-          </div>
-
-          <div>
-            <label class="text-xs block text-gray-600 flex items-center gap-1">
-              <span>⚙️</span>
-              <span>Policy</span>
-            </label>
-            <select id="sku2_policy" class="w-full border border-gray-300 rounded px-2 py-1 text-xs">
-              <option value="EOQ">EOQ (Classic)</option>
-              <option value="JIT">JIT (Small Lots)</option>
-              <option value="MINMAX">Min-Max (s,S)</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- Error box -->
-      <p id="errorBox"
-         class="hidden text-xs text-red-600 bg-red-50 border border-red-200 rounded px-2 py-1 mt-2 flex items-center gap-1">
-        <span>⚠️</span>
-        <span id="errorBoxText"></span>
-      </p>
-
-      <!-- Buttons: manual + server CSV -->
-      <button id="runBtn"
-              class="mt-3 w-full bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold px-4 py-2 rounded flex items-center justify-center gap-2">
-        <span>▶</span>
-        <span>Run & Save Scenario (Manual SKUs)</span>
-      </button>
-
-      <button id="runRealBtn"
-              class="mt-2 w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded flex items-center justify-center gap-2">
-        <span>📊</span>
-        <span>Run Simulation with Real Data (Server CSV)</span>
-      </button>
-      <p class="text-[10px] text-gray-500 flex items-center gap-1 mt-1">
-        <span>💾</span>
-        <span>
-          Uses <code>data/real_skus.csv</code> on the server with headers:
-          <code>sku_name,annual_demand,order_cost,holding_cost,lead_time_mean,policy</code>.
-        </span>
-      </p>
-
-      <!-- Upload CSV from browser (custom English button) -->
-      <div class="mt-4 border-t pt-3">
-        <div class="flex items-center gap-2 mb-1">
-          <span class="text-lg">📥</span>
-          <h3 class="text-sm font-semibold text-gray-800">
-            Add the CSV file to analyze here
-          </h3>
+      <div class="box-container">
+        
+        <div class="box box-1">
+          <h2>Munich, Germany</h2>
+          <p>Historic and modern, famous for beer gardens and the Alps nearby.</p>
         </div>
 
-        <!-- Hidden native file input -->
-        <input id="csvFileInput" type="file" accept=".csv" class="hidden"/>
+        <div class="box box-2">
+          <h2>Kyoto, Japan</h2>
+          <p>A city of temples, geishas, and beautiful cherry blossoms.</p>
+        </div>
 
-        <!-- Custom button in English -->
-        <label for="csvFileInput"
-               class="inline-flex items-center justify-center w-full text-sm font-semibold px-4 py-2 rounded bg-blue-600 text-white cursor-pointer hover:bg-blue-700 gap-2">
-          <span>📁</span>
-          <span>Choose CSV File</span>
-        </label>
-
-        <!-- File name display -->
-        <p id="csvFileName" class="mt-1 text-xs text-gray-500">
-          No file selected
-        </p>
-
-        <!-- Run CSV simulation -->
-        <button id="runCsvBtn"
-                class="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 rounded flex items-center justify-center gap-2">
-          <span>▶</span>
-          <span>Run Simulation with Uploaded CSV</span>
-        </button>
-
-        <p class="text-[10px] text-gray-500 mt-1 flex items-center gap-1">
-          <span>ℹ️</span>
-          <span>
-            The CSV must contain these headers:
-            <code>sku_name,annual_demand,order_cost,holding_cost,lead_time_mean,policy</code>.
-          </span>
-        </p>
+        <div class="box box-3">
+          <h2>Rio de Janeiro, Brazil</h2>
+          <p>Beaches, samba, and the iconic Christ the Redeemer statue.</p>
+        </div>
+      
       </div>
     </section>
 
-    <!-- RIGHT: Charts + KPIs + Scenarios -->
-    <section class="lg:col-span-2 space-y-4">
-
-      <!-- Simulation chart -->
-      <div class="bg-white shadow rounded-lg p-4">
-        <div class="flex items-center justify-between mb-2">
-          <div class="flex items-center gap-2">
-            <span class="text-xl">📈</span>
-            <h2 class="text-lg font-semibold text-gray-800">
-              Latest Simulation – Inventory Profiles
-            </h2>
-          </div>
-          <span class="text-[10px] text-gray-400">Daily on-hand inventory by SKU</span>
+    <section class="gallery" id="gallery">
+      <h1>Travel Gallery</h1>  
+      <p>A collection of memorable moments from my trips.</p>
+      <div class="gallery-container">
+        <div class="gallery-item">
+          <img src="./images/gallery_1.jpg" alt="Mountain house" style="width:100%; height: auto;">
         </div>
-        <div class="h-64">
-          <canvas id="inventoryChart"></canvas>
-        </div>
-        <p class="mt-1 text-xs text-gray-500">
-          Each line shows the on-hand inventory per day for a SKU in the last simulated scenario.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
-        <!-- KPIs -->
-        <div class="bg-white shadow rounded-lg p-4 space-y-3">
-          <div class="flex items-center gap-2 mb-1">
-            <span class="text-lg">📊</span>
-            <h3 class="text-sm font-semibold text-gray-800">Portfolio KPIs</h3>
-          </div>
-          <div id="portfolioCards" class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
-            <p class="text-xs text-gray-400 col-span-3 flex items-center gap-1">
-              <span>ℹ️</span>
-              <span>Run a scenario to see KPIs.</span>
-            </p>
-          </div>
-
-          <div class="mt-4">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-lg">🧬</span>
-              <h4 class="text-xs font-semibold text-gray-700">Per-SKU KPIs</h4>
-            </div>
-            <div class="overflow-auto border rounded">
-              <table class="min-w-full text-[11px]">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th class="p-2 text-left border-b">SKU</th>
-                    <th class="p-2 text-left border-b">Policy</th>
-                    <th class="p-2 text-right border-b">EOQ</th>
-                    <th class="p-2 text-right border-b">ROP</th>
-                    <th class="p-2 text-right border-b">Safety</th>
-                    <th class="p-2 text-right border-b">Orders</th>
-                    <th class="p-2 text-right border-b">Avg Inv</th>
-                    <th class="p-2 text-right border-b">Fill Rate</th>
-                    <th class="p-2 text-right border-b">Stockout Days</th>
-                    <th class="p-2 text-right border-b">Total Cost</th>
-                  </tr>
-                </thead>
-                <tbody id="skuTableBody" class="divide-y"></tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="mt-3">
-            <button id="toggleRawBtn"
-                    class="text-xs text-blue-700 hover:text-blue-900 underline flex items-center gap-1">
-              <span>🧾</span>
-              <span>Show / hide raw JSON</span>
-            </button>
-            <div id="rawJsonBox" class="hidden mt-2">
-              <pre id="kpiRaw" class="text-[10px] bg-gray-900 text-green-200 p-2 rounded max-h-64 overflow-auto">
---</pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Scenario list / compare – REDISEÑADO -->
-        <div class="bg-white shadow rounded-2xl p-4 space-y-4 border border-slate-100">
-          <div class="flex items-center justify-between gap-2">
-            <div>
-              <h3 class="text-sm font-semibold text-gray-900 flex items-center gap-2">
-                <span>🧩</span>
-                <span>Scenario Management</span>
-                <span class="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600">
-                  History & comparison
-                </span>
-              </h3>
-              <p class="text-[11px] text-gray-500 mt-1">
-                Choose a baseline (A) and a challenger (B) to compare policies side by side.
-              </p>
-            </div>
-          </div>
-
-          <!-- A / B selection cards -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div class="rounded-xl border border-slate-200 bg-slate-50/60 p-3 space-y-2">
-              <p class="text-xs font-semibold text-slate-700 flex items-center justify-between">
-                <span class="flex items-center gap-1">
-                  <span>🅰️</span>
-                  <span>Scenario A</span>
-                </span>
-                <span class="text-[10px] text-slate-500 font-normal">
-                  Baseline
-                </span>
-              </p>
-              <select id="scenarioA"
-                      class="w-full mt-1 border border-slate-300 rounded-lg px-2 py-1.5 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-              </select>
-              <p class="text-[10px] text-slate-500">
-                Used as reference for charts and CSV export.
-              </p>
-            </div>
-
-            <div class="rounded-xl border border-indigo-100 bg-indigo-50/60 p-3 space-y-2">
-              <p class="text-xs font-semibold text-indigo-700 flex items-center justify-between">
-                <span class="flex items-center gap-1">
-                  <span>🅱️</span>
-                  <span>Scenario B</span>
-                </span>
-                <span class="text-[10px] text-indigo-500 font-normal">
-                  Challenger
-                </span>
-              </p>
-              <select id="scenarioB"
-                      class="w-full mt-1 border border-indigo-200 rounded-lg px-2 py-1.5 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-              </select>
-              <p class="text-[10px] text-indigo-500">
-                Compare this scenario against A to see impact.
-              </p>
-            </div>
-          </div>
-
-          <!-- Action buttons -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-            <button id="compareBtn"
-                    class="flex items-center justify-center gap-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-3 py-2 rounded-lg">
-              <span>🔍</span>
-              <span>Compare A vs B</span>
-            </button>
-            <button id="exportABtn"
-                    class="flex items-center justify-center gap-1 bg-slate-900 hover:bg-black text-white text-xs font-semibold px-3 py-2 rounded-lg">
-              <span>⬇</span>
-              <span>Export A CSV</span>
-            </button>
-            <button id="exportBBtn"
-                    class="flex items-center justify-center gap-1 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold px-3 py-2 rounded-lg">
-              <span>⬇</span>
-              <span>Export B CSV</span>
-            </button>
-          </div>
-
-          <div>
-            <h4 class="text-xs font-semibold text-gray-700 mb-1 flex items-center gap-1">
-              <span>📉</span>
-              <span>Inventory Overlay</span>
-              <span class="text-[10px] text-gray-400">
-                (Scenario A vs B – first SKU)
-              </span>
-            </h4>
-            <div class="h-48 rounded-lg bg-slate-50 border border-slate-100 p-2">
-              <canvas id="compareChart"></canvas>
-            </div>
-          </div>
+        <div class="gallery-item">
+          <img src="./images/gallery_2.jpg" alt="Tulips" style="width:100%; height: auto;">
         </div>
       </div>
     </section>
-  </main>
 
-  <script>
-    // ===========================
-    // API base (backend Flask)
-    // ===========================
-    const API_BASE = "http://127.0.0.1:5000";
+    <section class="tips" id="tips">
+      <h1>Tips Rápidos para Viajar</h1> 
+      <ul>
+        <li>✈️ Reserva vuelos con antelación para mejores precios.</li>
+        <li>🎒 Viaja ligero, ¡solo con lo esencial!</li>
+        <li>🗺️ Siempre lleva un mapa físico o descarga el mapa de Google sin conexión.</li>
+        <li>🗣️ Aprende frases básicas del idioma local.</li>
+      </ul>
+    </section>
+    
+    <section class="contact" id="contact">
+      <h1>Plan Your Trip</h1>  
+      <form action="" method="get">
+        <label for="name">Your name:</label><br>
+        <input type="text" name="name" id="name"><br>
+        <label for="email">Your email:</label><br>
+        <input type="email" name="email" id="email"><br>
+        <input type="submit" onclick="alert('Message sent')" class="submit" value="Submit">
+      </form>
+    </section>
 
-    // ===========================
-    // Utilities
-    // ===========================
-    function showError(msg) {
-      const box = document.getElementById("errorBox");
-      const textSpan = document.getElementById("errorBoxText");
-      if (!msg) {
-        box.classList.add("hidden");
-        if (textSpan) textSpan.textContent = "";
-      } else {
-        if (textSpan) textSpan.textContent = msg;
-        box.classList.remove("hidden");
-        console.error(msg);
+    <script>
+      function got_click() {
+          alert('you clicked Help 2 from js file');
       }
-    }
-
-    function formatMoney(x) {
-      if (x == null || isNaN(x)) return "--";
-      return "$" + Number(x).toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      });
-    }
-
-    function formatNum(x) {
-      if (x == null || isNaN(x)) return "--";
-      return Number(x).toLocaleString();
-    }
-
-    function badgePolicy(policy) {
-      const p = (policy || "").toUpperCase();
-      if (p === "EOQ") {
-        return '<span class="px-2 py-0.5 rounded bg-blue-100 text-blue-700 text-[10px] font-semibold">EOQ</span>';
-      }
-      if (p === "JIT") {
-        return '<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[10px] font-semibold">JIT</span>';
-      }
-      if (p === "MINMAX") {
-        return '<span class="px-2 py-0.5 rounded bg-purple-100 text-purple-700 text-[10px] font-semibold">Min-Max</span>';
-      }
-      return '<span class="px-2 py-0.5 rounded bg-gray-100 text-gray-700 text-[10px] font-semibold">' + policy + "</span>";
-    }
-
-    function badgeFillRate(fill) {
-      const v = Number(fill);
-      if (isNaN(v)) return "--";
-      let cls = "bg-red-100 text-red-700";
-      if (v >= 98) cls = "bg-emerald-100 text-emerald-700";
-      else if (v >= 95) cls = "bg-yellow-100 text-yellow-700";
-      return '<span class="px-2 py-0.5 rounded ' + cls + ' text-[10px] font-semibold">' +
-             v.toFixed(2) + "%</span>";
-    }
-
-    // ===========================
-    // CSV parsing (for uploaded file)
-    // ===========================
-    function parseCsvToSkus(csvText, simDays, serviceLevel) {
-      const lines = csvText.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
-      if (!lines.length) {
-        throw new Error("CSV file is empty.");
-      }
-
-      const headerLine = lines[0];
-      const headers = headerLine.split(",").map(h => h.trim().toLowerCase());
-
-      function idx(colName) {
-        const i = headers.indexOf(colName.toLowerCase());
-        if (i === -1) {
-          throw new Error("Missing column in CSV header: " + colName);
-        }
-        return i;
-      }
-
-      const iName   = idx("sku_name");
-      const iD      = idx("annual_demand");
-      const iS      = idx("order_cost");
-      const iH      = idx("holding_cost");
-      const iLT     = idx("lead_time_mean");
-      const iPolicy = idx("policy");
-
-      const skus = [];
-
-      for (let li = 1; li < lines.length; li++) {
-        const line = lines[li];
-        if (!line) continue;
-        const parts = line.split(",").map(p => p.trim());
-        if (parts.length === 1 && parts[0] === "") continue;
-
-        const name   = parts[iName]   || ("SKU-" + li);
-        const D      = parseFloat(parts[iD]      || "0");
-        const S      = parseFloat(parts[iS]      || "0");
-        const H      = parseFloat(parts[iH]      || "0");
-        const LT     = parseInt(parts[iLT]      || "1", 10);
-        const policy = (parts[iPolicy] || "EOQ").toUpperCase();
-
-        if (!D || !S || !H || !LT) {
-          console.warn("Skipping row " + li + " due to missing numeric values.");
-          continue;
-        }
-
-        skus.push({
-          sku_name: name,
-          annual_demand: D,
-          order_cost: S,
-          holding_cost: H,
-          lead_time_mean: LT,
-          simulation_days: simDays,
-          policy: policy,
-          service_level: serviceLevel
-        });
-      }
-
-      if (!skus.length) {
-        throw new Error("No valid rows found in CSV.");
-      }
-
-      return skus;
-    }
-
-    // ===========================
-    // Charts
-    // ===========================
-    let inventoryChart = null;
-    let compareChart = null;
-
-    function renderSimulationChart(results) {
-      const canvas = document.getElementById("inventoryChart");
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-
-      const skus = results && results.SKUs ? results.SKUs : [];
-      if (!skus.length) {
-        if (inventoryChart) {
-          inventoryChart.destroy();
-          inventoryChart = null;
-        }
-        return;
-      }
-
-      const histories = skus.map(s => s.Inventory_History || []);
-      const maxLen = Math.max.apply(null, histories.map(h => h.length));
-      const labels = Array.from({ length: maxLen }, (_, i) => i + 1);
-
-      const datasets = skus.map((s, idx) => {
-        const hist = s.Inventory_History || [];
-        const data = Array.from({ length: maxLen }, (_, i) =>
-          i < hist.length ? hist[i] : null
-        );
-        return {
-          label: (s.sku || "SKU " + (idx + 1)) + " (" + (s.KPIs ? s.KPIs.Policy : "") + ")",
-          data,
-          borderWidth: 2,
-          fill: false,
-          tension: 0.25
-        };
-      });
-
-      if (inventoryChart) {
-        inventoryChart.destroy();
-      }
-
-      inventoryChart = new Chart(ctx, {
-        type: "line",
-        data: {
-          labels,
-          datasets
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: {
-              title: { display: true, text: "Day" }
-            },
-            y: {
-              title: { display: true, text: "On-hand inventory (units)" },
-              beginAtZero: true
-            }
-          },
-          plugins: {
-            legend: { position: "bottom" }
-          }
-        }
-      });
-    }
-
-    function renderOverlayChart(scenarioA, scenarioB) {
-      const canvas = document.getElementById("compareChart");
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-
-      if (compareChart) {
-        compareChart.destroy();
-        compareChart = null;
-      }
-
-      if (!scenarioA || !scenarioB) return;
-
-      const outA = scenarioA.output || {};
-      const outB = scenarioB.output || {};
-
-      const skuA = (outA.SKUs && outA.SKUs[0]) ? outA.SKUs[0] : null;
-      const skuB = (outB.SKUs && outB.SKUs[0]) ? outB.SKUs[0] : null;
-
-      const histA = skuA && skuA.Inventory_History ? skuA.Inventory_History : [];
-      const histB = skuB && skuB.Inventory_History ? skuB.Inventory_History : [];
-
-      const maxLen = Math.max(histA.length, histB.length);
-      if (!maxLen) return;
-
-      const labels = Array.from({ length: maxLen }, (_, i) => i + 1);
-
-      compareChart = new Chart(ctx, {
-        type: "line",
-        data: {
-          labels,
-          datasets: [
-            {
-              label: "A: " + (scenarioA.name || "Scenario A") + (skuA ? " (" + skuA.sku + ")" : ""),
-              data: Array.from({ length: maxLen }, (_, i) => i < histA.length ? histA[i] : null),
-              borderWidth: 2,
-              fill: false,
-              tension: 0.25
-            },
-            {
-              label: "B: " + (scenarioB.name || "Scenario B") + (skuB ? " (" + skuB.sku + ")" : ""),
-              data: Array.from({ length: maxLen }, (_, i) => i < histB.length ? histB[i] : null),
-              borderWidth: 2,
-              fill: false,
-              tension: 0.25
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { position: "bottom" }
-          },
-          scales: {
-            x: {
-              title: { display: true, text: "Day" }
-            },
-            y: {
-              title: { display: true, text: "On-hand inventory (units)" },
-              beginAtZero: true
-            }
-          }
-        }
-      });
-    }
-
-    // ===========================
-    // KPIs rendering
-    // ===========================
-    function renderKPIs(results) {
-      if (!results) return;
-
-      const raw = document.getElementById("kpiRaw");
-      if (raw) {
-        raw.textContent = JSON.stringify(results, null, 2);
-      }
-
-      const cards = document.getElementById("portfolioCards");
-      if (cards) {
-        const totalCost = results.Total_Cost;
-        const avgFill = results.Average_Fill_Rate;
-        const numSkus = results.SKUs ? results.SKUs.length : 0;
-
-        cards.innerHTML = `
-          <div class="p-3 rounded-lg border bg-white flex flex-col gap-1">
-            <div class="flex items-center gap-1 text-[11px] text-gray-500">
-              <span>💰</span>
-              <span>Total Cost (Portfolio)</span>
-            </div>
-            <p class="text-lg font-bold text-gray-900">${formatMoney(totalCost)}</p>
-            <p class="text-[11px] text-gray-500 mt-1">Holding + Ordering</p>
-          </div>
-          <div class="p-3 rounded-lg border bg-white flex flex-col gap-1">
-            <div class="flex items-center gap-1 text-[11px] text-gray-500">
-              <span>🎯</span>
-              <span>Average Fill Rate</span>
-            </div>
-            <p class="text-lg font-bold text-gray-900">${avgFill != null ? avgFill.toFixed(2) + "%" : "--"}</p>
-            <p class="text-[11px] text-gray-500 mt-1">Demand-weighted</p>
-          </div>
-          <div class="p-3 rounded-lg border bg-white flex flex-col gap-1">
-            <div class="flex items-center gap-1 text-[11px] text-gray-500">
-              <span>📦</span>
-              <span>Number of SKUs</span>
-            </div>
-            <p class="text-lg font-bold text-gray-900">${numSkus}</p>
-            <p class="text-[11px] text-gray-500 mt-1">Simulated items</p>
-          </div>
-        `;
-      }
-
-      const body = document.getElementById("skuTableBody");
-      if (body) {
-        body.innerHTML = "";
-        const skus = results.SKUs || [];
-        skus.forEach((skuRes) => {
-          const k = skuRes.KPIs || {};
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td class="p-2 border-b font-semibold">${skuRes.sku || "--"}</td>
-            <td class="p-2 border-b">${badgePolicy(k.Policy)}</td>
-            <td class="p-2 border-b text-right">${formatNum(k.EOQ)}</td>
-            <td class="p-2 border-b text-right">${formatNum(k.ROP)}</td>
-            <td class="p-2 border-b text-right">${formatNum(k.Safety_Stock)}</td>
-            <td class="p-2 border-b text-right">${formatNum(k.Orders_Count)}</td>
-            <td class="p-2 border-b text-right">${formatNum(k.Average_Inventory)}</td>
-            <td class="p-2 border-b text-right">${badgeFillRate(k.Fill_Rate)}</td>
-            <td class="p-2 border-b text-right">${formatNum(k.Stockout_Days)}</td>
-            <td class="p-2 border-b text-right font-semibold">${formatMoney(k.Total_Cost)}</td>
-          `;
-          body.appendChild(tr);
-        });
-      }
-
-      renderSimulationChart(results);
-    }
-
-    // ===========================
-    // API helpers (using API_BASE)
-    // ===========================
-    async function fetchScenarios() {
-      const ddA = document.getElementById("scenarioA");
-      const ddB = document.getElementById("scenarioB");
-      if (!ddA || !ddB) return;
-
-      ddA.innerHTML = "";
-      ddB.innerHTML = "";
-
-      try {
-        const res = await fetch(API_BASE + "/api/scenarios");
-        const text = await res.text();
-
-        let data;
-        try {
-          data = text ? JSON.parse(text) : [];
-        } catch (e) {
-          console.error("Non-JSON response from /api/scenarios:", text);
-          showError(
-            "Backend returned HTML instead of JSON for /api/scenarios. " +
-            "Make sure the Flask server is running (python app.py) at " + API_BASE + "."
-          );
-          return;
-        }
-
-        const scenarios = Array.isArray(data) ? data : [];
-        scenarios.sort((a, b) => (b.id || 0) - (a.id || 0));
-
-        scenarios.forEach((s) => {
-          const date = s.created_at ? new Date(s.created_at) : null;
-          const label =
-            (s.name || "Scenario " + s.id) +
-            (date ? " — " + date.toLocaleString() : "");
-
-          const optA = document.createElement("option");
-          optA.value = s.id;
-          optA.textContent = label;
-          ddA.appendChild(optA);
-
-          const optB = document.createElement("option");
-          optB.value = s.id;
-          optB.textContent = label;
-          ddB.appendChild(optB);
-        });
-      } catch (err) {
-        showError("Network error loading scenarios: " + err);
-      }
-    }
-
-    async function loadScenario(id) {
-      const res = await fetch(API_BASE + "/api/scenarios/" + encodeURIComponent(id));
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data && data.error ? data.error : ("Failed to load scenario " + id));
-      }
-      return data;
-    }
-
-    async function simulateWithSkus(scenarioName, simDays, serviceLevel, skus) {
-      const payload = {
-        scenarioName: scenarioName,
-        simulationDays: simDays,
-        serviceLevel: serviceLevel,
-        skus: skus
-      };
-
-      try {
-        const res = await fetch(API_BASE + "/api/simulate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          showError(data && data.error ? data.error : ("Simulation error: " + res.status));
-          return;
-        }
-
-        showError("");
-        if (data && data.results) {
-          renderKPIs(data.results);
-        }
-
-        await fetchScenarios();
-      } catch (err) {
-        showError("Network error calling /api/simulate: " + err);
-      }
-    }
-
-    // ===========================
-    // Scenario runners
-    // ===========================
-    async function runScenarioManual() {
-      showError("");
-
-      const scenarioName = document.getElementById("scenarioName").value || "Manual Scenario";
-      const simDays = parseInt(document.getElementById("simDays").value, 10);
-      const serviceLevelPct = parseFloat(document.getElementById("serviceLevel").value);
-
-      if (!simDays || simDays <= 0) {
-        showError("Please enter a valid number of simulation days.");
-        return;
-      }
-      if (!serviceLevelPct || serviceLevelPct <= 0) {
-        showError("Please enter a valid service level (%).");
-        return;
-      }
-
-      const serviceLevel = serviceLevelPct > 1 ? serviceLevelPct / 100 : serviceLevelPct;
-
-      function readSku(idx) {
-        const name = document.getElementById("sku" + idx + "_name").value || ("SKU-" + idx);
-        const D = parseFloat(document.getElementById("sku" + idx + "_D").value);
-        const S = parseFloat(document.getElementById("sku" + idx + "_S").value);
-        const H = parseFloat(document.getElementById("sku" + idx + "_H").value);
-        const LT = parseInt(document.getElementById("sku" + idx + "_LT").value, 10);
-        const policy = document.getElementById("sku" + idx + "_policy").value || "EOQ";
-
-        if (!D || !S || !H || !LT) {
-          throw new Error("Please fill all numeric fields for SKU " + idx + ".");
-        }
-
-        return {
-          sku_name: name,
-          annual_demand: D,
-          order_cost: S,
-          holding_cost: H,
-          lead_time_mean: LT,
-          simulation_days: simDays,
-          policy: policy,
-          service_level: serviceLevel
-        };
-      }
-
-      let skus;
-      try {
-        skus = [readSku(1), readSku(2)];
-      } catch (err) {
-        showError(err.message);
-        return;
-      }
-
-      await simulateWithSkus(scenarioName, simDays, serviceLevel, skus);
-    }
-
-    async function runScenarioReal() {
-      showError("");
-
-      const simDays = parseInt(document.getElementById("simDays").value, 10);
-      const serviceLevelPct = parseFloat(document.getElementById("serviceLevel").value);
-
-      if (!simDays || simDays <= 0) {
-        showError("Please enter a valid number of simulation days.");
-        return;
-      }
-      if (!serviceLevelPct || serviceLevelPct <= 0) {
-        showError("Please enter a valid service level (%).");
-        return;
-      }
-
-      const serviceLevel = serviceLevelPct > 1 ? serviceLevelPct / 100 : serviceLevelPct;
-
-      const payload = {
-        simulationDays: simDays,
-        serviceLevel: serviceLevel
-      };
-
-      try {
-        const res = await fetch(API_BASE + "/api/simulate_real", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          showError(data && data.error ? data.error : ("Simulation error: " + res.status));
-          return;
-        }
-
-        showError("");
-        if (data && data.results) {
-          renderKPIs(data.results);
-        }
-      } catch (err) {
-        showError("Network error calling /api/simulate_real: " + err);
-      }
-    }
-
-    function runScenarioFromCsvFile() {
-      showError("");
-
-      const fileInput = document.getElementById("csvFileInput");
-      if (!fileInput || !fileInput.files || !fileInput.files.length) {
-        showError("Please choose a CSV file first.");
-        return;
-      }
-
-      const file = fileInput.files[0];
-
-      const simDays = parseInt(document.getElementById("simDays").value, 10);
-      const serviceLevelPct = parseFloat(document.getElementById("serviceLevel").value);
-
-      if (!simDays || simDays <= 0) {
-        showError("Please enter a valid number of simulation days.");
-        return;
-      }
-      if (!serviceLevelPct || serviceLevelPct <= 0) {
-        showError("Please enter a valid service level (%).");
-        return;
-      }
-
-      const serviceLevel = serviceLevelPct > 1 ? serviceLevelPct / 100 : serviceLevelPct;
-      const scenarioName = document.getElementById("scenarioName").value || "Uploaded CSV Scenario";
-
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        try {
-          const text = e.target.result;
-          const skus = parseCsvToSkus(text, simDays, serviceLevel);
-          simulateWithSkus(scenarioName + " (CSV)", simDays, serviceLevel, skus);
-        } catch (err) {
-          console.error("Error parsing CSV:", err);
-          showError(err.message || "Error parsing CSV file.");
-        }
-      };
-      reader.onerror = function () {
-        showError("Error reading CSV file.");
-      };
-
-      reader.readAsText(file);
-    }
-
-    async function compareAB() {
-      const ddA = document.getElementById("scenarioA");
-      const ddB = document.getElementById("scenarioB");
-      if (!ddA || !ddB) return;
-
-      const idA = ddA.value;
-      const idB = ddB.value;
-      if (!idA || !idB) {
-        showError("Please select Scenario A and B to compare.");
-        return;
-      }
-
-      try {
-        const [scA, scB] = await Promise.all([loadScenario(idA), loadScenario(idB)]);
-        renderOverlayChart(scA, scB);
-        showError("");
-      } catch (err) {
-        showError("Error loading scenarios for comparison: " + err.message);
-      }
-    }
-
-    function exportScenario(which) {
-      const select = document.getElementById(which);
-      if (!select) return;
-      const id = select.value;
-      if (!id) {
-        showError("Please select a scenario to export.");
-        return;
-      }
-      showError("");
-      window.location.href = API_BASE + "/api/scenarios/" + encodeURIComponent(id) + "/csv";
-    }
-
-    // ===========================
-    // Events & init
-    // ===========================
-    document.addEventListener("DOMContentLoaded", () => {
-      const runBtn = document.getElementById("runBtn");
-      if (runBtn) runBtn.addEventListener("click", runScenarioManual);
-
-      const runRealBtn = document.getElementById("runRealBtn");
-      if (runRealBtn) runRealBtn.addEventListener("click", runScenarioReal);
-
-      const runCsvBtn = document.getElementById("runCsvBtn");
-      if (runCsvBtn) runCsvBtn.addEventListener("click", runScenarioFromCsvFile);
-
-      const compareBtn = document.getElementById("compareBtn");
-      if (compareBtn) compareBtn.addEventListener("click", compareAB);
-
-      const exportABtn = document.getElementById("exportABtn");
-      if (exportABtn) exportABtn.addEventListener("click", () => exportScenario("scenarioA"));
-
-      const exportBBtn = document.getElementById("exportBBtn");
-      if (exportBBtn) exportBBtn.addEventListener("click", () => exportScenario("scenarioB"));
-
-      const toggleRawBtn = document.getElementById("toggleRawBtn");
-      if (toggleRawBtn) {
-        toggleRawBtn.addEventListener("click", () => {
-          const box = document.getElementById("rawJsonBox");
-          if (box) box.classList.toggle("hidden");
-        });
-      }
-
-      // Custom file upload label
-      const fileInput = document.getElementById("csvFileInput");
-      const fileNameSpan = document.getElementById("csvFileName");
-      if (fileInput && fileNameSpan) {
-        fileInput.addEventListener("change", () => {
-          if (fileInput.files && fileInput.files.length > 0) {
-            fileNameSpan.textContent = fileInput.files[0].name;
-          } else {
-            fileNameSpan.textContent = "No file selected";
-          }
-        });
-      }
-
-      fetchScenarios();
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
-
