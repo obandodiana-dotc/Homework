@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "JIT_Simulator/backend"
+		},
+		{
+			"path": "JIT_Simulator/data"
+		},
+		{
+			"path": "JIT_Simulator/docs"
+		},
+		{
+			"path": "JIT_Simulator/frontend"
+		}
+	]
+}
