@@ -1,350 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Real Inventory Policy Simulator</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Travel Page - Código Consolidado</title>
 
-<body class="bg-gray-50 p-6">
-  <h1 class="text-4xl font-bold text-blue-700 text-center mb-6">
-    Real Inventory Policy Simulator
-  </h1>
-
-  <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-    <!-- LEFT: Multi-SKU Form -->
-    <div class="bg-white shadow p-5 rounded space-y-4">
-      <h2 class="text-xl font-semibold">Scenario Setup (Multi-SKU)</h2>
-
-      <label class="text-sm">Scenario name</label>
-      <input id="scenarioName" class="w-full border p-2 rounded" placeholder="e.g. Baseline EOQ vs JIT"/>
-
-      <p class="text-sm text-gray-500">
-        Use 2–5 SKUs. You can change policy per SKU.
-      </p>
-
-      <!-- SKU 1 -->
-      <div class="border rounded p-3 space-y-2">
-        <h3 class="font-semibold">SKU 1</h3>
-        <input id="sku1_name" class="w-full border p-2 rounded" value="SKU-1"/>
-        <input id="sku1_D" class="w-full border p-2 rounded" type="number" value="10000" placeholder="Annual Demand"/>
-        <input id="sku1_S" class="w-full border p-2 rounded" type="number" value="50" placeholder="Order Cost"/>
-        <input id="sku1_H" class="w-full border p-2 rounded" type="number" value="5" placeholder="Holding Cost"/>
-        <input id="sku1_LT" class="w-full border p-2 rounded" type="number" value="7" placeholder="Lead Time Days"/>
-        <select id="sku1_policy" class="w-full border p-2 rounded">
-          <option value="EOQ">EOQ / ROP</option>
-          <option value="JIT">JIT (Small Lots)</option>
-          <option value="MINMAX">Min-Max (s,S)</option>
-        </select>
-      </div>
-
-      <!-- SKU 2 -->
-      <div class="border rounded p-3 space-y-2">
-        <h3 class="font-semibold">SKU 2</h3>
-        <input id="sku2_name" class="w-full border p-2 rounded" value="SKU-2"/>
-        <input id="sku2_D" class="w-full border p-2 rounded" type="number" value="6000"/>
-        <input id="sku2_S" class="w-full border p-2 rounded" type="number" value="40"/>
-        <input id="sku2_H" class="w-full border p-2 rounded" type="number" value="3"/>
-        <input id="sku2_LT" class="w-full border p-2 rounded" type="number" value="5"/>
-        <select id="sku2_policy" class="w-full border p-2 rounded">
-          <option value="EOQ">EOQ / ROP</option>
-          <option value="JIT">JIT (Small Lots)</option>
-          <option value="MINMAX">Min-Max (s,S)</option>
-        </select>
-      </div>
-
-      <label class="text-sm">Simulation Days</label>
-      <input id="simDays" class="w-full border p-2 rounded" type="number" value="365"/>
-
-      <label class="text-sm">Service Level (0.90–0.99)</label>
-      <input id="serviceLevel" class="w-full border p-2 rounded" type="number" step="0.01" value="0.95"/>
-
-      <button id="runBtn" class="w-full bg-green-600 text-white py-2 rounded">
-        Run & Save Scenario
-      </button>
-
-      <div id="errorBox" class="hidden bg-red-100 text-red-700 p-2 rounded"></div>
-    </div>
-
-    <!-- RIGHT: Results + Charts -->
-    <div class="lg:col-span-2 space-y-6">
-
-      <!-- Scenario list / compare -->
-      <div class="bg-white shadow p-5 rounded space-y-3">
-        <h2 class="text-xl font-semibold">Scenario Comparison</h2>
-
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <select id="scenarioA" class="border p-2 rounded"></select>
-          <select id="scenarioB" class="border p-2 rounded"></select>
-          <button id="compareBtn" class="bg-blue-700 text-white rounded p-2">
-            Compare A vs B
-          </button>
-        </div>
-
-        <div class="flex gap-2 mt-2">
-          <button id="exportABtn" class="bg-gray-800 text-white px-3 py-1 rounded">
-            Export Scenario A CSV
-          </button>
-          <button id="exportBBtn" class="bg-gray-800 text-white px-3 py-1 rounded">
-            Export Scenario B CSV
-          </button>
-        </div>
-      </div>
-
-      <!-- Combined Chart -->
-      <div class="bg-white shadow p-5 rounded">
-        <h3 class="font-semibold mb-2">Inventory Overlay (Scenario A vs B)</h3>
-        <canvas id="compareChart"></canvas>
-      </div>
-
-      <!-- KPIs Dashboard -->
-      <div class="bg-white shadow p-5 rounded space-y-4">
-        <div class="flex items-center justify-between">
-          <h3 class="text-lg font-semibold">Portfolio KPIs (Last Run)</h3>
-          <button id="toggleRawBtn"
-            class="text-sm px-3 py-1 rounded border border-gray-200 hover:bg-gray-50">
-            Show raw JSON
-          </button>
-        </div>
-
-        <div id="portfolioCards" class="grid grid-cols-1 sm:grid-cols-3 gap-3"></div>
-
-        <div class="overflow-x-auto">
-          <table class="min-w-full text-sm">
-            <thead class="bg-gray-50 text-gray-700">
-              <tr>
-                <th class="text-left p-2">SKU</th>
-                <th class="text-left p-2">Policy</th>
-                <th class="text-right p-2">EOQ</th>
-                <th class="text-right p-2">ROP</th>
-                <th class="text-right p-2">Safety Stock</th>
-                <th class="text-right p-2">Orders</th>
-                <th class="text-right p-2">Avg Inventory</th>
-                <th class="text-right p-2">Fill Rate</th>
-                <th class="text-right p-2">Stockout Days</th>
-                <th class="text-right p-2">Total Cost</th>
-              </tr>
-            </thead>
-            <tbody id="skuTableBody" class="divide-y"></tbody>
-          </table>
-        </div>
-
-        <div id="rawJsonBox" class="hidden">
-          <pre id="kpiRaw" class="text-xs bg-gray-100 p-3 rounded overflow-auto max-h-64">--</pre>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<script>
-let compareChart = null;
-
-async function fetchScenarios() {
-  const res = await fetch("/api/scenarios");
-  const scenarios = await res.json();
-
-  const selectA = document.getElementById("scenarioA");
-  const selectB = document.getElementById("scenarioB");
-  selectA.innerHTML = "";
-  selectB.innerHTML = "";
-
-  scenarios.forEach(s => {
-    const optA = document.createElement("option");
-    optA.value = s.id;
-    optA.textContent = `${s.id} - ${s.name}`;
-    selectA.appendChild(optA);
-
-    const optB = document.createElement("option");
-    optB.value = s.id;
-    optB.textContent = `${s.id} - ${s.name}`;
-    selectB.appendChild(optB);
-  });
-}
-
-async function runScenario() {
-  const payload = {
-    scenarioName: document.getElementById("scenarioName").value,
-    simulationDays: parseInt(document.getElementById("simDays").value),
-    serviceLevel: parseFloat(document.getElementById("serviceLevel").value),
-    skus: [
-      {
-        sku_name: document.getElementById("sku1_name").value,
-        annual_demand: parseFloat(document.getElementById("sku1_D").value),
-        order_cost: parseFloat(document.getElementById("sku1_S").value),
-        holding_cost: parseFloat(document.getElementById("sku1_H").value),
-        lead_time_mean: parseInt(document.getElementById("sku1_LT").value),
-        simulation_days: parseInt(document.getElementById("simDays").value),
-        policy: document.getElementById("sku1_policy").value,
-        service_level: parseFloat(document.getElementById("serviceLevel").value),
-      },
-      {
-        sku_name: document.getElementById("sku2_name").value,
-        annual_demand: parseFloat(document.getElementById("sku2_D").value),
-        order_cost: parseFloat(document.getElementById("sku2_S").value),
-        holding_cost: parseFloat(document.getElementById("sku2_H").value),
-        lead_time_mean: parseInt(document.getElementById("sku2_LT").value),
-        simulation_days: parseInt(document.getElementById("simDays").value),
-        policy: document.getElementById("sku2_policy").value,
-        service_level: parseFloat(document.getElementById("serviceLevel").value),
+    <style>
+      /* global styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-    ]
-  };
 
-  const res = await fetch("/api/simulate", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify(payload)
-  });
+      h1 {
+        font-family: "Lucida Handwriting";
+      }
 
-  const data = await res.json();
-  if (!res.ok) {
-    const box = document.getElementById("errorBox");
-    box.textContent = data.error || "Simulation error";
-    box.classList.remove("hidden");
-    return;
-  }
+      /* ################################# Navigation Bar ################################# */
 
-  document.getElementById("errorBox").classList.add("hidden");
+      header {
+        /* Changed color for a travel theme */
+        background-color: #0077b6; /* Ocean Blue */
+      }
+      .home {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .topnav {
+        margin: 15px;
+      }
+      /* Style the links inside the topnav */
+      .topnav a {
+        color: #f2f2f2;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 26px;
+      }
+      /* Change the color of links on hover */
+      .topnav a:hover {
+        background-color: #fca311; /* Amber highlight */
+        color: black;
+        border-radius: 15px;
+      }
 
-  renderKPIs(data.results);
+      /* ################################# SECTION Profile (Destinations) ################################# */
+      .profile {
+        background-color: #a8dadc; /* Light Cyan */
+        padding: 10px;
+        /* RUTA CORREGIDA: Asume que pexels-bg.jpg está en la carpeta 'images' */
+        background-image: url("./images/pexels-bg.jpg"); 
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+      }
+      .profile_title {
+        text-align: center;
+        color: #1d3557; /* Dark Blue Text */
+      }
+      .box-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+      }
+      .box {
+        /* Changed background color */
+        background-color: #457b9d; /* Slate Blue */
+        height: 250px;
+        width: 250px;
+        color: white; /* Added text color */
+        padding: 10px; /* Added padding for text */
+        text-align: center;
+        margin: 20px;
+        border-radius: 10px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+      }
 
-  await fetchScenarios();
-}
+      /* Specific background images for each box (Destinations) */
+      /* RUTAS CORREGIDAS: Asume que las imágenes están en la carpeta 'images' */
+      .box-1 {
+        background-image: url("./images/home.jpg"); 
+      }
 
-async function loadScenario(id) {
-  const res = await fetch(`/api/scenarios/${id}`);
-  return await res.json();
-}
+      .box-2 {
+        background-image: url("./images/red.jpg");
+      }
 
-function renderOverlayChart(scenarioA, scenarioB) {
-  const ctx = document.getElementById("compareChart").getContext("2d");
-  if (compareChart) compareChart.destroy();
+      .box-3 {
+        background-image: url(./images/ReDI_Logo.png);
+      }
 
-  const aSku = scenarioA.output.SKUs?.[0];
-  const bSku = scenarioB.output.SKUs?.[0];
 
-  const aHist = aSku?.Inventory_History || [];
-  const bHist = bSku?.Inventory_History || [];
+      /* ################################# NUEVA SECCIÓN: Gallery ################################# */
+      .gallery {
+        background-color: #e63946; /* Red for emphasis */
+        padding: 20px;
+        text-align: center;
+        color: white;
+      }
+      .gallery-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+      }
+      .gallery-item {
+        width: 300px;
+        border: 5px solid white;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+      }
 
-  compareChart = new Chart(ctx, {
-    type:"line",
-    data:{
-      labels: aHist.map((_,i)=>i),
-      datasets:[
-        { label:`A: ${scenarioA.name} (${aSku?.sku})`, data:aHist, borderWidth:2 },
-        { label:`B: ${scenarioB.name} (${bSku?.sku})`, data:bHist, borderWidth:2 }
-      ]
-    },
-    options:{ responsive:true, plugins:{ legend:{ position:"bottom" } } }
-  });
-}
+      /* ################################# SECTION Contact ################################# */
+      .contact {
+        background-color: #f1faee; /* Pale White */
+        height: 400px;
+        padding: 10px;
+      }
 
-async function compareAB() {
-  const idA = document.getElementById("scenarioA").value;
-  const idB = document.getElementById("scenarioB").value;
-  if (!idA || !idB) return;
+      label {
+        font-size: 24px;
+      }
+      input {
+        font-size: 24px;
+        padding: 5px;
+        margin: 10px;
+        background-color: lightgray;
+        border: 2px solid black;
+        border-radius: 4px;
+      }
+      input [type="submit"] {
+        font-size: 24px;
+        padding: 5px;
+      }
 
-  const scA = await loadScenario(idA);
-  const scB = await loadScenario(idB);
+      /* media query to change layout when screen is wider than 880px */
+      @media (min-width: 880px) {
+        .profile_title {
+          text-align: left;
+        }
+        .home {
+          flex-direction: row;
+        }
+        .box-container {
+          flex-direction: row;
+        }
+      }
+    </style>
+  </head>
 
-  renderOverlayChart(scA, scB);
-}
+  <body>
+    <header>
+      <div class="home" id="home">
 
-function exportScenario(which) {
-  const id = document.getElementById(which).value;
-  if (!id) return;
-  window.location.href = `/api/scenarios/${id}/csv`;
-}
+        <img src="./images/ReDI_Logo.png" alt="Travel Logo" width="50">
+        
+        <h1>My Travel Adventures</h1>
 
-// -----------------------------
-// Professional KPI render
-// -----------------------------
-function formatMoney(x) {
-  if (x == null || isNaN(x)) return "--";
-  return `$${Number(x).toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-}
+        <div class="topnav">
+          <a href="#home">Home</a>
+          <a href="#gallery">Gallery</a> <a href="#profile">Destinations</a> <a href="#contact">Contact</a>
 
-function formatNum(x) {
-  if (x == null || isNaN(x)) return "--";
-  return Number(x).toLocaleString();
-}
+          <button onclick="alert('Ready to explore?')">Explore</button>
+        </div>      
+      </div> 
+    </header>
+    
+    <section class="profile" id="profile">
+      
+      <h1 class="profile_title">My Favorite Destinations</h1>
 
-function badgePolicy(policy) {
-  const p = (policy || "").toUpperCase();
-  if (p === "EOQ") return `<span class="px-2 py-0.5 rounded bg-blue-100 text-blue-700 text-xs font-semibold">EOQ</span>`;
-  if (p === "JIT") return `<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-xs font-semibold">JIT</span>`;
-  if (p === "MINMAX") return `<span class="px-2 py-0.5 rounded bg-purple-100 text-purple-700 text-xs font-semibold">Min-Max</span>`;
-  return `<span class="px-2 py-0.5 rounded bg-gray-100 text-gray-700 text-xs font-semibold">${policy}</span>`;
-}
+      <div class="box-container">
+        
+        <div class="box box-1">
+          <h2>Munich, Germany</h2>
+          <p>Historic and modern, famous for beer gardens and the Alps nearby.</p>
+        </div>
 
-function badgeFillRate(fill) {
-  const v = Number(fill);
-  if (isNaN(v)) return "--";
-  if (v >= 98) return `<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-xs font-semibold">${v}%</span>`;
-  if (v >= 95) return `<span class="px-2 py-0.5 rounded bg-yellow-100 text-yellow-700 text-xs font-semibold">${v}%</span>`;
-  return `<span class="px-2 py-0.5 rounded bg-red-100 text-red-700 text-xs font-semibold">${v}%</span>`;
-}
+        <div class="box box-2">
+          <h2>Kyoto, Japan</h2>
+          <p>A city of temples, geishas, and beautiful cherry blossoms.</p>
+        </div>
 
-function renderKPIs(results) {
-  document.getElementById("kpiRaw").textContent = JSON.stringify(results, null, 2);
+        <div class="box box-3">
+          <h2>Rio de Janeiro, Brazil</h2>
+          <p>Beaches, samba, and the iconic Christ the Redeemer statue.</p>
+        </div>
+      
+      </div>
+    </section>
 
-  const portfolioCards = document.getElementById("portfolioCards");
-  portfolioCards.innerHTML = `
-    <div class="p-4 rounded-lg border bg-white">
-      <p class="text-xs text-gray-500">Total Cost (Portfolio)</p>
-      <p class="text-2xl font-bold text-gray-900">${formatMoney(results.Total_Cost)}</p>
-      <p class="text-xs text-gray-500 mt-1">Sum of all SKUs</p>
-    </div>
-    <div class="p-4 rounded-lg border bg-white">
-      <p class="text-xs text-gray-500">Average Fill Rate</p>
-      <p class="text-2xl font-bold text-gray-900">${(results.Average_Fill_Rate ?? "--")}%</p>
-      <p class="text-xs text-gray-500 mt-1">Portfolio service level</p>
-    </div>
-    <div class="p-4 rounded-lg border bg-white">
-      <p class="text-xs text-gray-500">Number of SKUs</p>
-      <p class="text-2xl font-bold text-gray-900">${results.SKUs?.length ?? 0}</p>
-      <p class="text-xs text-gray-500 mt-1">Simulated items</p>
-    </div>
-  `;
+    <section class="gallery" id="gallery">
+      <h1>Travel Gallery</h1>  
+      <p>A collection of memorable moments from my trips.</p>
+      <div class="gallery-container">
+        <div class="gallery-item">
+          <img src="./images/home.jpg" alt="Mountain house" style="width:100%; height: auto;">
+        </div>
+        <div class="gallery-item">
+          <img src="./images/red.jpg" alt="Tulips" style="width:100%; height: auto;">
+        </div>
+      </div>
+    </section>
+    <section class="contact" id="contact">
+      <h1>Plan Your Trip</h1>  
+      <form action="" method="get">
+        <label for="name">Your name:</label><br>
+        <input type="text" name="name" id="name"><br>
+        <label for="email">Your email:</label><br>
+        <input type="email" name="email" id="email"><br>
+        <input type="submit" onclick="alert('Message sent')" class="submit" value="Submit">
+      </form>
+    </section>
 
-  const body = document.getElementById("skuTableBody");
-  body.innerHTML = "";
-
-  (results.SKUs || []).forEach(skuRes => {
-    const k = skuRes.KPIs || {};
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td class="p-2 font-semibold">${skuRes.sku ?? "--"}</td>
-      <td class="p-2">${badgePolicy(k.Policy)}</td>
-      <td class="p-2 text-right">${formatNum(k.EOQ)}</td>
-      <td class="p-2 text-right">${formatNum(k.ROP)}</td>
-      <td class="p-2 text-right">${formatNum(k.Safety_Stock)}</td>
-      <td class="p-2 text-right">${formatNum(k.Orders_Count)}</td>
-      <td class="p-2 text-right">${formatNum(k.Average_Inventory)}</td>
-      <td class="p-2 text-right">${badgeFillRate(k.Fill_Rate)}</td>
-      <td class="p-2 text-right">${formatNum(k.Stockout_Days)}</td>
-      <td class="p-2 text-right font-semibold">${formatMoney(k.Total_Cost)}</td>
-    `;
-    body.appendChild(row);
-  });
-}
-
-document.getElementById("toggleRawBtn").addEventListener("click", () => {
-  document.getElementById("rawJsonBox").classList.toggle("hidden");
-});
-
-// -----------------------------
-// Events
-// -----------------------------
-document.getElementById("runBtn").addEventListener("click", runScenario);
-document.getElementById("compareBtn").addEventListener("click", compareAB);
-document.getElementById("exportABtn").addEventListener("click", () => exportScenario("scenarioA"));
-document.getElementById("exportBBtn").addEventListener("click", () => exportScenario("scenarioB"));
-
-fetchScenarios();
-</script>
-</body>
+    <script>
+      function got_click() {
+          alert('you clicked Help 2 from js file');
+      }
+    </script>
+  </body>
 </html>
