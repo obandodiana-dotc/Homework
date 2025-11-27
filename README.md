@@ -92,19 +92,8 @@ Simple form for submitting name and email.
 ## 🚀 How to View the Project  
 Open the page via GitHub Pages:
 
-https://YOUR_USERNAME.github.io/YOUR_REPO_NAME
+https://obandodiana-dotc.github.io/Homework/#gallery
 
-arduino
-Copiar código
-
-Or open the project locally:
-
-index.html
-
-yaml
-Copiar código
-
-No backend or frameworks required.
 
 ---
 
@@ -122,7 +111,7 @@ No backend or frameworks required.
 │ travel_bg.jpg
 
 yaml
-Copiar código
+
 
 ---
 
