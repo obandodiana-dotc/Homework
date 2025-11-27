@@ -20,247 +20,356 @@
             ocean: '#0077b6',
             amber: '#fca311',
           },
+          backgroundImage: {
+            'travel-pattern': "url('./travel_bg.jpg')",
+          },
         },
       },
     };
   </script>
-
   <style>
-    /* smooth scroll (extra por si acaso) */
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
   </style>
 </head>
 
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-950 to-sky-900 text-slate-100 relative overflow-x-hidden">
 
-  <!-- NAV STICKY -->
-  <header class="sticky top-0 z-50 bg-ocean/95 dark:bg-slate-900/95 backdrop-blur border-b border-sky-200 dark:border-slate-700">
-    <div class="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
-      <!-- Logo + title -->
-      <div class="flex items-center gap-3">
-        <img src="./logo.avif" alt="Travel Logo"
-             class="h-10 w-10 rounded-full ring-2 ring-amber shadow-md object-cover" />
-        <div>
-          <h1 class="font-script text-xl sm:text-2xl text-white">My Travel Adventures</h1>
-          <p class="text-xs text-sky-100">Explore · Dream · Discover</p>
+  <!-- Soft background pattern -->
+  <div class="pointer-events-none fixed inset-0 opacity-20 mix-blend-screen">
+    <div class="w-[120%] h-[120%] bg-travel-pattern bg-cover bg-center blur-3xl"></div>
+  </div>
+
+  <!-- NAVBAR STICKY -->
+  <header class="sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto mt-2 px-4">
+      <nav
+        class="backdrop-blur-xl bg-slate-900/80 border border-slate-700/70 rounded-3xl px-4 py-3 flex items-center justify-between shadow-[0_18px_60px_rgba(0,0,0,0.6)]">
+        <!-- Logo + brand -->
+        <div class="flex items-center gap-3">
+          <img src="./logo.avif" alt="Travel Logo"
+               class="h-10 w-10 rounded-2xl ring-2 ring-amber shadow-md object-cover" />
+          <div>
+            <h1 class="font-script text-xl sm:text-2xl text-amber">My Travel Adventures</h1>
+            <p class="text-[11px] text-slate-300">Travel Journal · Diana</p>
+          </div>
         </div>
-      </div>
 
-      <!-- Links + dark mode -->
-      <nav class="flex items-center gap-3 text-sm">
-        <a href="#home" class="hidden sm:inline-block px-3 py-1 rounded-full text-sky-50 hover:bg-amber hover:text-black transition">
-          Home
-        </a>
-        <a href="#destinations" class="hidden sm:inline-block px-3 py-1 rounded-full text-sky-50 hover:bg-amber hover:text-black transition">
-          Destinations
-        </a>
-        <a href="#gallery" class="hidden sm:inline-block px-3 py-1 rounded-full text-sky-50 hover:bg-amber hover:text-black transition">
-          Gallery
-        </a>
-        <a href="#contact" class="hidden sm:inline-block px-3 py-1 rounded-full text-sky-50 hover:bg-amber hover:text-black transition">
-          Contact
-        </a>
+        <!-- Navigation links -->
+        <div class="hidden sm:flex items-center gap-2 text-xs">
+          <a href="#home"
+             class="px-3 py-1 rounded-full text-slate-100 hover:bg-amber hover:text-black transition">
+            Home
+          </a>
+          <a href="#about"
+             class="px-3 py-1 rounded-full text-slate-100 hover:bg-amber hover:text-black transition">
+            About
+          </a>
+          <a href="#destinations"
+             class="px-3 py-1 rounded-full text-slate-100 hover:bg-amber hover:text-black transition">
+            Destinations
+          </a>
+          <a href="#gallery"
+             class="px-3 py-1 rounded-full text-slate-100 hover:bg-amber hover:text-black transition">
+            Gallery
+          </a>
+          <a href="#contact"
+             class="px-3 py-1 rounded-full text-slate-100 hover:bg-amber hover:text-black transition">
+            Contact
+          </a>
+        </div>
 
         <!-- Dark mode toggle -->
         <button id="themeToggle"
-          class="ml-1 inline-flex items-center gap-1 rounded-full bg-slate-900/80 dark:bg-slate-100/90 text-slate-100 dark:text-slate-900 px-3 py-1 text-xs font-semibold shadow hover:scale-105 active:scale-95 transition">
+          class="ml-2 inline-flex items-center justify-center h-8 w-8 rounded-2xl bg-slate-800 text-amber text-lg shadow hover:scale-110 active:scale-95 transition"
+          aria-label="Toggle dark mode">
           <span id="themeIcon">🌙</span>
-          <span class="hidden sm:inline">Mode</span>
         </button>
       </nav>
     </div>
   </header>
 
-  <main class="max-w-5xl mx-auto px-4">
+  <!-- MAIN CONTENT -->
+  <main class="relative z-10 max-w-5xl mx-auto px-4 pb-16">
 
-    <!-- HERO -->
-    <section id="home" class="mt-6 mb-10 grid gap-6 md:grid-cols-[1.4fr,1fr] items-center">
-      <!-- Imagen hero -->
-      <div class="relative overflow-hidden rounded-3xl shadow-2xl">
-        <img src="./city-night.jpg" alt="City at night"
-             class="w-full h-64 md:h-80 object-cover transform hover:scale-105 transition duration-700" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-        <div class="absolute bottom-4 left-4 right-4 text-white">
-          <h2 class="text-2xl md:text-3xl font-semibold mb-1">Night lights, new stories.</h2>
-          <p class="text-sm text-sky-100">
-            From Munich squares to Kyoto temples and Rio’s beaches – follow the journey.
-          </p>
+    <!-- HOME / INICIO -->
+    <section id="home" class="mt-10 grid gap-8 md:grid-cols-[1.2fr,1fr] items-center">
+      <!-- Text column -->
+      <div class="space-y-4">
+        <p class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-sky-300">
+          <span class="h-[1px] w-8 bg-sky-400"></span> Welcome · Inicio
+        </p>
+        <h2 class="text-3xl md:text-4xl font-bold leading-tight">
+          Collect <span class="text-amber">memories</span>,  
+          not just <span class="text-sky-300">stamps</span> on your passport.
+        </h2>
+        <p class="text-sm text-slate-200/90 max-w-lg">
+          This website is a small travel journal: a place to gather favorite cities, photos,
+          and moments. It was built as a web development project while learning HTML, CSS and UI design.
+        </p>
+        <div class="flex flex-wrap gap-3 items-center">
+          <button
+            onclick="document.getElementById('destinations').scrollIntoView({behavior:'smooth'})"
+            class="inline-flex items-center gap-2 bg-amber text-black px-4 py-2 rounded-full text-sm font-semibold shadow-lg hover:shadow-amber/70 hover:-translate-y-0.5 active:translate-y-0 transition">
+            ✈️ Start Exploring
+          </button>
+          <span class="text-[11px] text-slate-300">
+            Scroll to see destinations, gallery & contact.
+          </span>
         </div>
       </div>
 
-      <!-- Texto hero + botón -->
-      <div class="space-y-4">
-        <p class="text-sm uppercase tracking-[0.2em] text-sky-500 dark:text-sky-300">
-          Travel Journal · Diana
-        </p>
-        <h2 class="text-2xl md:text-3xl font-bold">
-          Collect memories, not things.
-        </h2>
-        <p class="text-sm text-slate-700 dark:text-slate-300">
-          This page is a small showcase of some cities that inspire me – their colors, energy,
-          and stories. Scroll down to explore my favorite destinations and moments.
-        </p>
-        <button
-          onclick="document.getElementById('destinations').scrollIntoView({behavior:'smooth'})"
-          class="inline-flex items-center gap-2 bg-amber text-black px-4 py-2 rounded-full text-sm font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition">
-          ✈️ Start Exploring
-        </button>
-      </div>
-    </section>
+      <!-- Floating cards column -->
+      <div class="relative h-80 md:h-96">
+        <!-- Glow background -->
+        <div class="absolute inset-0 bg-gradient-to-tr from-sky-500/20 via-amber/20 to-pink-500/10 blur-3xl"></div>
 
-    <!-- DESTINATIONS / CARDS 3D -->
-    <section id="destinations" class="mb-12">
-      <div class="flex items-end justify-between gap-2 mb-4">
-        <h3 class="text-xl md:text-2xl font-bold">Favorite Destinations</h3>
-        <p class="text-xs text-slate-500 dark:text-slate-400">Hover the cards ✨</p>
-      </div>
-
-      <div class="grid gap-6 md:grid-cols-3">
-        <!-- Munich -->
-        <article
-          class="group bg-white/80 dark:bg-slate-800/80 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transform hover:-translate-y-2 hover:-rotate-1 transition duration-300">
-          <div class="overflow-hidden">
-            <img src="./Munich.jpg" alt="Munich, Germany"
-                 class="w-full h-40 object-cover group-hover:scale-110 transition duration-500" />
-          </div>
-          <div class="p-4 space-y-2">
-            <h4 class="font-semibold text-lg flex items-center gap-2">
-              🇩🇪 Munich, Germany
-            </h4>
-            <p class="text-sm text-slate-700 dark:text-slate-300">
-              Beautiful architecture, cozy cafés and Bavarian traditions in every corner.
-            </p>
-            <span class="inline-flex text-[11px] px-2 py-1 rounded-full bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-200">
-              Old town · Culture · Food
-            </span>
-          </div>
-        </article>
-
-        <!-- Kyoto -->
-        <article
-          class="group bg-white/80 dark:bg-slate-800/80 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transform hover:-translate-y-2 hover:rotate-1 transition duration-300">
-          <div class="overflow-hidden">
-            <img src="./Kioto.jpg" alt="Kyoto, Japan"
-                 class="w-full h-40 object-cover group-hover:scale-110 transition duration-500" />
-          </div>
-          <div class="p-4 space-y-2">
-            <h4 class="font-semibold text-lg flex items-center gap-2">
-              🇯🇵 Kyoto, Japan
-            </h4>
-            <p class="text-sm text-slate-700 dark:text-slate-300">
-              Temples, seasonal colors and quiet streets – perfect for slow travel days.
-            </p>
-            <span class="inline-flex text-[11px] px-2 py-1 rounded-full bg-rose-100 text-rose-700 dark:bg-rose-900 dark:text-rose-100">
-              Temples · Nature · Calm
-            </span>
-          </div>
-        </article>
-
-        <!-- Rio -->
-        <article
-          class="group bg-white/80 dark:bg-slate-800/80 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transform hover:-translate-y-2 hover:-rotate-1 transition duration-300">
-          <div class="overflow-hidden">
-            <img src="./rio.jpg" alt="Rio de Janeiro, Brazil"
-                 class="w-full h-40 object-cover group-hover:scale-110 transition duration-500" />
-          </div>
-          <div class="p-4 space-y-2">
-            <h4 class="font-semibold text-lg flex items-center gap-2">
-              🇧🇷 Rio de Janeiro, Brazil
-            </h4>
-            <p class="text-sm text-slate-700 dark:text-slate-300">
-              Beaches, music and unforgettable views from the top of the Corcovado.
-            </p>
-            <span class="inline-flex text-[11px] px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-100">
-              Beach · Music · Views
-            </span>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- GALLERY RESPONSIVE -->
-    <section id="gallery" class="mb-12">
-      <div class="flex items-end justify-between gap-2 mb-4">
-        <h3 class="text-xl md:text-2xl font-bold">Travel Gallery</h3>
-        <p class="text-xs text-slate-500 dark:text-slate-400">
-          Little snapshots from the road.
-        </p>
-      </div>
-
-      <div class="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
         <!-- Card 1 -->
-        <div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow hover:shadow-xl transition group">
-          <img src="./mountain-house.png" alt="Mountain house"
-               class="w-full h-40 object-cover group-hover:scale-105 transition duration-500" />
-          <div class="p-3 text-sm">
-            <p class="font-semibold mb-1">Mountain retreat</p>
-            <p class="text-xs text-slate-600 dark:text-slate-300">
-              Early mornings, fresh air and quiet views.
+        <div
+          class="absolute left-0 top-6 w-44 md:w-52 bg-slate-900/80 border border-sky-500/60 rounded-3xl shadow-2xl overflow-hidden transform -rotate-3 hover:-rotate-1 hover:-translate-y-2 transition duration-300">
+          <img src="./Munich.jpg" alt="Munich"
+               class="w-full h-28 object-cover" />
+          <div class="p-3">
+            <p class="text-xs text-sky-300">Munich, Germany</p>
+            <p class="text-[11px] text-slate-200">
+              Cozy streets, beer gardens & Alpine views.
             </p>
           </div>
         </div>
 
         <!-- Card 2 -->
-        <div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow hover:shadow-xl transition group">
-          <img src="./tulips.jpg" alt="Tulips field"
-               class="w-full h-40 object-cover group-hover:scale-105 transition duration-500" />
-          <div class="p-3 text-sm">
-            <p class="font-semibold mb-1">Spring colors</p>
-            <p class="text-xs text-slate-600 dark:text-slate-300">
-              Fields of tulips that look like a painting.
+        <div
+          class="absolute right-0 top-20 w-40 md:w-48 bg-slate-900/80 border border-rose-400/60 rounded-3xl shadow-2xl overflow-hidden transform rotate-3 hover:rotate-1 hover:-translate-y-2 transition duration-300">
+          <img src="./Kioto.jpg" alt="Kyoto"
+               class="w-full h-24 object-cover" />
+          <div class="p-3">
+            <p class="text-xs text-rose-300">Kyoto, Japan</p>
+            <p class="text-[11px] text-slate-200">
+              Temples, calm streets and cherry blossoms.
             </p>
           </div>
         </div>
 
         <!-- Card 3 -->
-        <div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow hover:shadow-xl transition group">
-          <img src="./city-night.jpg" alt="City by night"
-               class="w-full h-40 object-cover group-hover:scale-105 transition duration-500" />
-          <div class="p-3 text-sm">
-            <p class="font-semibold mb-1">City at night</p>
-            <p class="text-xs text-slate-600 dark:text-slate-300">
-              Neon lights, rainy streets and long walks.
+        <div
+          class="absolute left-10 bottom-4 w-40 md:w-48 bg-slate-900/80 border border-emerald-400/60 rounded-3xl shadow-2xl overflow-hidden transform rotate-1 hover:-rotate-1 hover:-translate-y-2 transition duration-300">
+          <img src="./rio.jpg" alt="Rio"
+               class="w-full h-24 object-cover" />
+          <div class="p-3">
+            <p class="text-xs text-emerald-300">Rio de Janeiro, Brazil</p>
+            <p class="text-[11px] text-slate-200">
+              Beach, music and iconic views.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="mb-16">
-      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow p-6 md:p-8 space-y-4">
-        <h3 class="text-xl md:text-2xl font-bold mb-2">Plan Your Next Trip</h3>
-        <p class="text-sm text-slate-700 dark:text-slate-300">
-          Leave your details and a destination you’d love to visit. This is just a demo page,
-          but imagine this as your travel planner or newsletter sign-up.
+    <!-- ABOUT SECTION -->
+    <section id="about" class="mt-16">
+      <div
+        class="rounded-3xl bg-slate-950/85 backdrop-blur-2xl border border-slate-700/70 shadow-[0_18px_80px_rgba(0,0,0,0.8)] p-6 md:p-8 grid gap-6 md:grid-cols-[1.4fr,1fr] items-start">
+        <div>
+          <h3 class="text-2xl font-semibold mb-3">About this Website</h3>
+          <p class="text-sm text-slate-200/90 mb-3">
+            <strong>My Travel Adventures</strong> is a single-page website created as a web development
+            exercise. The goal is to practice building a complete UI: navigation, hero section, content
+            blocks, image gallery and a contact area.
+          </p>
+          <p class="text-sm text-slate-200/90 mb-3">
+            It uses <span class="text-amber font-semibold">HTML5 + Tailwind CSS + a bit of JavaScript</span>
+            to create a modern, responsive, and interactive interface without heavy frameworks.
+          </p>
+          <p class="text-sm text-slate-200/90">
+            The content is based on imagined travel moments, but the layout and structure reflect patterns
+            you can reuse later for portfolios, landing pages, and personal projects.
+          </p>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-sm font-semibold text-sky-300">What this UI includes</h4>
+          <ul class="text-sm text-slate-200/90 space-y-2 list-disc list-inside">
+            <li>Sticky navigation bar with smooth scrolling.</li>
+            <li>Hero section with call-to-action button.</li>
+            <li>Destination cards with hover animations.</li>
+            <li>Responsive image gallery with overlays.</li>
+            <li>Simple contact form block.</li>
+            <li>Dark mode support (toggle at the top).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- DESTINATIONS SECTION -->
+    <section id="destinations" class="mt-16">
+      <div class="flex items-end justify-between gap-2 mb-5">
+        <h3 class="text-2xl font-semibold">Favorite Destinations</h3>
+        <p class="text-[11px] text-slate-300">Hover the cards ✨</p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-3">
+        <!-- Munich -->
+        <article
+          class="group relative rounded-3xl p-[2px] bg-gradient-to-br from-sky-400 via-amber-300 to-pink-500 shadow-2xl">
+          <div class="h-full w-full rounded-[1.4rem] bg-slate-950/90 backdrop-blur-xl p-3 flex flex-col">
+            <div class="relative overflow-hidden rounded-2xl mb-3">
+              <img src="./Munich.jpg" alt="Munich, Germany"
+                   class="w-full h-32 object-cover group-hover:scale-110 transition duration-500" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-60"></div>
+              <span class="absolute bottom-2 left-2 text-[11px] bg-sky-500/80 text-white px-2 py-0.5 rounded-full">
+                🇩🇪 City & Culture
+              </span>
+            </div>
+            <h4 class="font-semibold text-sm mb-1">Munich, Germany</h4>
+            <p class="text-[11px] text-slate-200 mb-2">
+              Historic squares, cozy cafés and Bavarian traditions.
+            </p>
+            <div class="mt-auto flex gap-1 flex-wrap">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-900 text-sky-200">Old town</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-900 text-slate-200">Cafés</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Kyoto -->
+        <article
+          class="group relative rounded-3xl p-[2px] bg-gradient-to-br from-rose-400 via-fuchsia-400 to-amber-300 shadow-2xl">
+          <div class="h-full w-full rounded-[1.4rem] bg-slate-950/90 backdrop-blur-xl p-3 flex flex-col">
+            <div class="relative overflow-hidden rounded-2xl mb-3">
+              <img src="./Kioto.jpg" alt="Kyoto, Japan"
+                   class="w-full h-32 object-cover group-hover:scale-110 transition duration-500" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-60"></div>
+              <span class="absolute bottom-2 left-2 text-[11px] bg-rose-500/80 text-white px-2 py-0.5 rounded-full">
+                🇯🇵 Calm & Temples
+              </span>
+            </div>
+            <h4 class="font-semibold text-sm mb-1">Kyoto, Japan</h4>
+            <p class="text-[11px] text-slate-200 mb-2">
+              Temples, narrow streets and seasonal colors.
+            </p>
+            <div class="mt-auto flex gap-1 flex-wrap">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-rose-900 text-rose-100">Temples</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-900 text-slate-200">Slow travel</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Rio -->
+        <article
+          class="group relative rounded-3xl p-[2px] bg-gradient-to-br from-emerald-400 via-cyan-300 to-amber-300 shadow-2xl">
+          <div class="h-full w-full rounded-[1.4rem] bg-slate-950/90 backdrop-blur-xl p-3 flex flex-col">
+            <div class="relative overflow-hidden rounded-2xl mb-3">
+              <img src="./rio.jpg" alt="Rio de Janeiro, Brazil"
+                   class="w-full h-32 object-cover group-hover:scale-110 transition duration-500" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-60"></div>
+              <span class="absolute bottom-2 left-2 text-[11px] bg-emerald-500/80 text-white px-2 py-0.5 rounded-full">
+                🇧🇷 Beach & Music
+              </span>
+            </div>
+            <h4 class="font-semibold text-sm mb-1">Rio de Janeiro, Brazil</h4>
+            <p class="text-[11px] text-slate-200 mb-2">
+              Beach days, samba nights and iconic viewpoints.
+            </p>
+            <div class="mt-auto flex gap-1 flex-wrap">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-900 text-emerald-100">Beaches</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-900 text-slate-200">Views</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section id="gallery" class="mt-16">
+      <div class="flex items-end justify-between gap-2 mb-5">
+        <h3 class="text-2xl font-semibold">Travel Gallery</h3>
+        <p class="text-[11px] text-slate-300">
+          Little moments that feel like postcards.
+        </p>
+      </div>
+
+      <div class="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
+        <!-- Card 1 -->
+        <div
+          class="group relative overflow-hidden rounded-3xl bg-slate-900/80 backdrop-blur-xl border border-slate-700/70 shadow-xl">
+          <img src="./mountain-house.png" alt="Mountain house"
+               class="w-full h-40 object-cover group-hover:scale-110 transition duration-500" />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/5 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end">
+            <div class="p-3 text-xs">
+              <p class="font-semibold">Mountain retreat</p>
+              <p class="text-slate-200/90">
+                Quiet mornings, fresh air and long walks.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div
+          class="group relative overflow-hidden rounded-3xl bg-slate-900/80 backdrop-blur-xl border border-slate-700/70 shadow-xl">
+          <img src="./tulips.jpg" alt="Tulips field"
+               class="w-full h-40 object-cover group-hover:scale-110 transition duration-500" />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end">
+            <div class="p-3 text-xs">
+              <p class="font-semibold">Spring colors</p>
+              <p class="text-slate-200/90">
+                A field that looks like a painting.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div
+          class="group relative overflow-hidden rounded-3xl bg-slate-900/80 backdrop-blur-xl border border-slate-700/70 shadow-xl">
+          <img src="./city-night.jpg" alt="City at night"
+               class="w-full h-40 object-cover group-hover:scale-110 transition duration-500" />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end">
+            <div class="p-3 text-xs">
+              <p class="font-semibold">Neon nights</p>
+              <p class="text-slate-200/90">
+                Rainy streets, city lights and long walks.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="mt-16">
+      <div
+        class="rounded-3xl bg-slate-950/80 backdrop-blur-2xl border border-slate-700/70 shadow-[0_18px_80px_rgba(0,0,0,0.8)] p-6 md:p-8 max-w-xl mx-auto">
+        <h3 class="text-2xl font-semibold mb-2">Plan Your Next Trip</h3>
+        <p class="text-sm text-slate-200/90 mb-4">
+          This is a demo contact form for the project. You can adapt it later to send real messages
+          or connect it to a backend or service.
         </p>
 
         <form class="space-y-4">
           <div>
-            <label for="name" class="block text-sm font-semibold mb-1">Your name</label>
+            <label for="name" class="block text-xs font-semibold mb-1">Your name</label>
             <input id="name" type="text"
-                   class="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber focus:border-amber" />
+              class="w-full rounded-2xl border border-slate-600 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber focus:border-amber" />
           </div>
 
           <div>
-            <label for="email" class="block text-sm font-semibold mb-1">Your email</label>
+            <label for="email" class="block text-xs font-semibold mb-1">Your email</label>
             <input id="email" type="email"
-                   class="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber focus:border-amber" />
+              class="w-full rounded-2xl border border-slate-600 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber focus:border-amber" />
           </div>
 
           <div>
-            <label for="destination" class="block text-sm font-semibold mb-1">
-              Dream destination
-            </label>
+            <label for="destination" class="block text-xs font-semibold mb-1">Dream destination</label>
             <input id="destination" type="text" placeholder="Tokyo, New York, Berlin..."
-                   class="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber focus:border-amber" />
+              class="w-full rounded-2xl border border-slate-600 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber focus:border-amber" />
           </div>
 
           <button type="button"
-                  onclick="alert('Message sent – happy travels! ✈️')"
-                  class="inline-flex items-center gap-2 bg-ocean text-white px-5 py-2 rounded-full text-sm font-semibold shadow-md hover:bg-sky-700 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition">
+            onclick="alert('Message sent – thank you for visiting this project! ✈️')"
+            class="mt-2 inline-flex items-center gap-2 bg-amber text-black px-5 py-2 rounded-full text-sm font-semibold shadow-lg hover:shadow-amber/70 hover:-translate-y-0.5 active:translate-y-0 transition">
             📩 Send
           </button>
         </form>
@@ -268,23 +377,25 @@
     </section>
   </main>
 
-  <footer class="border-t border-slate-200 dark:border-slate-800 py-4 text-center text-xs text-slate-500 dark:text-slate-400">
-    Built as a homework project · My Travel Adventures
+  <!-- FOOTER -->
+  <footer class="relative z-10 py-4 text-center text-[11px] text-slate-400">
+    My Travel Adventures · Built as a web development homework project
   </footer>
 
   <!-- Dark mode script -->
   <script>
     const root = document.documentElement;
-    const btn = document.getElementById('themeToggle');
+    const toggleBtn = document.getElementById('themeToggle');
     const icon = document.getElementById('themeIcon');
 
-    // load saved theme
-    if (localStorage.getItem('theme') === 'dark') {
+    // Load stored theme
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'dark') {
       root.classList.add('dark');
       icon.textContent = '☀️';
     }
 
-    btn.addEventListener('click', () => {
+    toggleBtn.addEventListener('click', () => {
       const isDark = root.classList.toggle('dark');
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
       icon.textContent = isDark ? '☀️' : '🌙';
@@ -292,3 +403,4 @@
   </script>
 </body>
 </html>
+
