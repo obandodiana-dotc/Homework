@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Travel Adventures · Contact</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { script: ['"Lucida Handwriting"', 'cursive'] },
+          colors: { ocean: '#0077b6', amber: '#fca311' },
+          backgroundImage: { 'travel-pattern': "url('./travel_bg.jpg')" },
+        },
+      },
+    };
+  </script>
+  <style>html { scroll-behavior: smooth; }</style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-950 to-sky-900 text-slate-100 relative overflow-x-hidden">
+  <div class="pointer-events-none fixed inset-0 opacity-20 mix-blend-screen">
+    <div class="w-[120%] h-[120%] bg-travel-pattern bg-cover bg-center blur-3xl"></div>
+  </div>
+
+  <!-- NAV (Contact activo) -->
+  <header class="sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto mt-2 px-4">
+      <nav
+        class="backdrop-blur-xl bg-slate-900/80 border border-slate-700/70 rounded-3xl px-4 py-3 flex items-center justify-between shadow-[0_18px_60px_rgba(0,0,0,0.6)]">
+        <div class="flex items-center gap-3">
+          <img src="./logo.avif" alt="Travel Logo"
+               class="h-10 w-10 rounded-2xl ring-2 ring-amber shadow-md object-cover" />
+          <div>
+            <h1 class="font-script text-xl sm:text-2xl text-amber">My Travel Adventures</h1>
+            <p class="text-[11px] text-slate-300">Travel Journal · Diana</p>
+          </div>
+        </div>
+
+        <div class="hidden sm:flex items-center gap-2 text-xs">
+          <a href="index.html"
+             class="px-3 py-1 rounded-full text-slate-100 hover:bg-amber hover:text-black transition">
+            Home
+          </a>
+          <a href="destinations.html"
+             class="px-3 py-1 rounded-full text-slate-100 hover:bg-amber hover:text-black transition">
+            Destinations
+          </a>
+          <a href="gallery.html"
+             class="px-3 py-1 rounded-full text-slate-100 hover:bg-amber hover:text-black transition">
+            Gallery
+          </a>
+          <a href="contact.html"
+             class="px-3 py-1 rounded-full bg-amber text-black font-semibold">
+            Contact
+          </a>
+        </div>
+
+        <button id="themeToggle"
+          class="ml-2 inline-flex items-center justify-center h-8 w-8 rounded-2xl bg-slate-800 text-amber text-lg shadow hover:scale-110 active:scale-95 transition"
+          aria-label="Toggle dark mode">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="relative z-10 max-w-5xl mx-auto px-4 pb-16">
+    <section class="mt-10 mb-6">
+      <h2 class="text-3xl font-bold mb-2">Contact</h2>
+      <p class="text-sm text-slate-200/90 max-w-xl">
+        This is a demo contact form for the project. You can reuse this structure later to create a real
+        contact page for a portfolio, business, or any future project.
+      </p>
+    </section>
+
+    <section>
+      <div
+        class="rounded-3xl bg-slate-950/80 backdrop-blur-2xl border border-slate-700/70 shadow-[0_18px_80px_rgba(0,0,0,0.8)] p-6 md:p-8 max-w-xl">
+        <form class="space-y-4">
+          <div>
+            <label for="name" class="block text-xs font-semibold mb-1">Your name</label>
+            <input id="name" type="text"
+              class="w-full rounded-2xl border border-slate-600 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber focus:border-amber" />
+          </div>
+
+          <div>
+            <label for="email" class="block text-xs font-semibold mb-1">Your email</label>
+            <input id="email" type="email"
+              class="w-full rounded-2xl border border-slate-600 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber focus:border-amber" />
+          </div>
+
+          <div>
+            <label for="destination" class="block text-xs font-semibold mb-1">Dream destination</label>
+            <input id="destination" type="text" placeholder="Tokyo, New York, Berlin..."
+              class="w-full rounded-2xl border border-slate-600 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber focus:border-amber" />
+          </div>
+
+          <div>
+            <label for="message" class="block text-xs font-semibold mb-1">Message</label>
+            <textarea id="message" rows="4"
+              class="w-full rounded-2xl border border-slate-600 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber focus:border-amber"></textarea>
+          </div>
+
+          <button type="button"
+            onclick="alert('Message sent – thank you for visiting this project! ✈️')"
+            class="mt-2 inline-flex items-center gap-2 bg-amber text-black px-5 py-2 rounded-full text-sm font-semibold shadow-lg hover:shadow-amber/70 hover:-translate-y-0.5 active:translate-y-0 transition">
+            📩 Send
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="relative z-10 py-4 text-center text-[11px] text-slate-400">
+    My Travel Adventures · Contact
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const toggleBtn = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'dark') {
+      root.classList.add('dark');
+      icon.textContent = '☀️';
+    }
+    toggleBtn.addEventListener('click', () => {
+      const isDark = root.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      icon.textContent = isDark ? '☀️' : '🌙';
+    });
+  </script>
+</body>
+</html>
