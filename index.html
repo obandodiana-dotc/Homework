@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Travel Adventures · Contact</title>
+  <title>My Travel Adventures · Home</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -22,15 +22,15 @@
 </head>
 
 <body class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-950 to-sky-900 text-slate-100 relative overflow-x-hidden">
+  <!-- background blur -->
   <div class="pointer-events-none fixed inset-0 opacity-20 mix-blend-screen">
     <div class="w-[120%] h-[120%] bg-travel-pattern bg-cover bg-center blur-3xl"></div>
   </div>
 
-  <!-- NAV (Contact activo) -->
+  <!-- NAVBAR (shared en todas las páginas) -->
   <header class="sticky top-0 z-40">
     <div class="max-w-5xl mx-auto mt-2 px-4">
-      <nav
-        class="backdrop-blur-xl bg-slate-900/80 border border-slate-700/70 rounded-3xl px-4 py-3 flex items-center justify-between shadow-[0_18px_60px_rgba(0,0,0,0.6)]">
+      <nav class="backdrop-blur-xl bg-slate-900/80 border border-slate-700/70 rounded-3xl px-4 py-3 flex items-center justify-between shadow-[0_18px_60px_rgba(0,0,0,0.6)]">
         <div class="flex items-center gap-3">
           <img src="./logo.avif" alt="Travel Logo"
                class="h-10 w-10 rounded-2xl ring-2 ring-amber shadow-md object-cover" />
@@ -42,7 +42,7 @@
 
         <div class="hidden sm:flex items-center gap-2 text-xs">
           <a href="index.html"
-             class="px-3 py-1 rounded-full text-slate-100 hover:bg-amber hover:text-black transition">
+             class="px-3 py-1 rounded-full bg-amber text-black font-semibold">
             Home
           </a>
           <a href="destinations.html"
@@ -54,7 +54,7 @@
             Gallery
           </a>
           <a href="contact.html"
-             class="px-3 py-1 rounded-full bg-amber text-black font-semibold">
+             class="px-3 py-1 rounded-full text-slate-100 hover:bg-amber hover:text-black transition">
             Contact
           </a>
         </div>
@@ -68,55 +68,79 @@
     </div>
   </header>
 
+  <!-- MAIN -->
   <main class="relative z-10 max-w-5xl mx-auto px-4 pb-16">
-    <section class="mt-10 mb-6">
-      <h2 class="text-3xl font-bold mb-2">Contact</h2>
-      <p class="text-sm text-slate-200/90 max-w-xl">
-        This is a demo contact form for the project. You can reuse this structure later to create a real
-        contact page for a portfolio, business, or any future project.
-      </p>
+
+    <!-- HOME -->
+    <section class="mt-10 grid gap-8 md:grid-cols-[1.2fr,1fr] items-center">
+      <div class="space-y-4">
+        <p class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-sky-300">
+          <span class="h-[1px] w-8 bg-sky-400"></span> Welcome · Inicio
+        </p>
+        <h2 class="text-3xl md:text-4xl font-bold leading-tight">
+          Collect <span class="text-amber">memories</span>, not just <span class="text-sky-300">stamps</span>.
+        </h2>
+        <p class="text-sm text-slate-200/90 max-w-lg">
+          This is a travel-themed webpage created as a web development exercise. Here you can explore
+          destinations, a small gallery and a simple contact form – all while practicing UI and layout skills.
+        </p>
+        <div class="flex flex-wrap gap-3 items-center">
+          <a href="destinations.html"
+             class="inline-flex items-center gap-2 bg-amber text-black px-4 py-2 rounded-full text-sm font-semibold shadow-lg hover:shadow-amber/70 hover:-translate-y-0.5 active:translate-y-0 transition">
+            ✈️ Go to Destinations
+          </a>
+          <span class="text-[11px] text-slate-300">
+            You can also visit the Gallery and Contact sections from the menu.
+          </span>
+        </div>
+      </div>
+
+      <!-- Imagen hero -->
+      <div class="relative h-72 md:h-80">
+        <div class="absolute inset-0 bg-gradient-to-tr from-sky-500/30 via-amber/20 to-pink-500/20 blur-3xl"></div>
+        <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-700/70 h-full">
+          <img src="./city-night.jpg" alt="City at night"
+               class="w-full h-full object-cover transform hover:scale-105 transition duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+          <div class="absolute bottom-4 left-4 right-4 text-white">
+            <h3 class="text-xl font-semibold mb-1">Night lights, new stories.</h3>
+            <p class="text-[12px] text-sky-100">
+              Imagine walking through new cities, collecting moments and learning by building UIs.
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section>
+    <!-- ABOUT -->
+    <section class="mt-16">
       <div
-        class="rounded-3xl bg-slate-950/80 backdrop-blur-2xl border border-slate-700/70 shadow-[0_18px_80px_rgba(0,0,0,0.8)] p-6 md:p-8 max-w-xl">
-        <form class="space-y-4">
-          <div>
-            <label for="name" class="block text-xs font-semibold mb-1">Your name</label>
-            <input id="name" type="text"
-              class="w-full rounded-2xl border border-slate-600 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber focus:border-amber" />
-          </div>
-
-          <div>
-            <label for="email" class="block text-xs font-semibold mb-1">Your email</label>
-            <input id="email" type="email"
-              class="w-full rounded-2xl border border-slate-600 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber focus:border-amber" />
-          </div>
-
-          <div>
-            <label for="destination" class="block text-xs font-semibold mb-1">Dream destination</label>
-            <input id="destination" type="text" placeholder="Tokyo, New York, Berlin..."
-              class="w-full rounded-2xl border border-slate-600 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber focus:border-amber" />
-          </div>
-
-          <div>
-            <label for="message" class="block text-xs font-semibold mb-1">Message</label>
-            <textarea id="message" rows="4"
-              class="w-full rounded-2xl border border-slate-600 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber focus:border-amber"></textarea>
-          </div>
-
-          <button type="button"
-            onclick="alert('Message sent – thank you for visiting this project! ✈️')"
-            class="mt-2 inline-flex items-center gap-2 bg-amber text-black px-5 py-2 rounded-full text-sm font-semibold shadow-lg hover:shadow-amber/70 hover:-translate-y-0.5 active:translate-y-0 transition">
-            📩 Send
-          </button>
-        </form>
+        class="rounded-3xl bg-slate-950/85 backdrop-blur-2xl border border-slate-700/70 shadow-[0_18px_80px_rgba(0,0,0,0.8)] p-6 md:p-8 space-y-4">
+        <h3 class="text-2xl font-semibold mb-2">About this Project</h3>
+        <p class="text-sm text-slate-200/90">
+          <strong>My Travel Adventures</strong> is a mini website designed to practice front-end development
+          skills. It includes a navigation bar, multiple pages, cards, a gallery and a form – all styled
+          with Tailwind CSS.
+        </p>
+        <p class="text-sm text-slate-200/90">
+          The structure is divided into separate pages:
+        </p>
+        <ul class="text-sm text-slate-200/90 list-disc list-inside space-y-1">
+          <li><strong>Home:</strong> introduction and overview.</li>
+          <li><strong>Destinations:</strong> a set of travel cards with hover effects.</li>
+          <li><strong>Gallery:</strong> image grid with simple overlays.</li>
+          <li><strong>Contact:</strong> a demo form to “plan” a future trip.</li>
+        </ul>
+        <p class="text-sm text-slate-200/90">
+          You can reuse this layout later as a personal portfolio, by replacing travel content with your
+          projects, skills and links.
+        </p>
       </div>
     </section>
   </main>
 
   <footer class="relative z-10 py-4 text-center text-[11px] text-slate-400">
-    My Travel Adventures · Contact
+    My Travel Adventures · Home · Built as a web development project
   </footer>
 
   <script>
@@ -136,4 +160,3 @@
   </script>
 </body>
 </html>
-
