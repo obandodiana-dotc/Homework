@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Travel Adventures · Home</title>
 
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -22,15 +23,17 @@
 </head>
 
 <body class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-950 to-sky-900 text-slate-100 relative overflow-x-hidden">
-  <!-- background blur -->
+  <!-- Soft background pattern -->
   <div class="pointer-events-none fixed inset-0 opacity-20 mix-blend-screen">
     <div class="w-[120%] h-[120%] bg-travel-pattern bg-cover bg-center blur-3xl"></div>
   </div>
 
-  <!-- NAVBAR (shared en todas las páginas) -->
+  <!-- NAVBAR (Home activo) -->
   <header class="sticky top-0 z-40">
     <div class="max-w-5xl mx-auto mt-2 px-4">
-      <nav class="backdrop-blur-xl bg-slate-900/80 border border-slate-700/70 rounded-3xl px-4 py-3 flex items-center justify-between shadow-[0_18px_60px_rgba(0,0,0,0.6)]">
+      <nav
+        class="backdrop-blur-xl bg-slate-900/80 border border-slate-700/70 rounded-3xl px-4 py-3 flex items-center justify-between shadow-[0_18px_60px_rgba(0,0,0,0.6)]">
+        <!-- Brand -->
         <div class="flex items-center gap-3">
           <img src="./logo.avif" alt="Travel Logo"
                class="h-10 w-10 rounded-2xl ring-2 ring-amber shadow-md object-cover" />
@@ -40,6 +43,7 @@
           </div>
         </div>
 
+        <!-- Menu -->
         <div class="hidden sm:flex items-center gap-2 text-xs">
           <a href="index.html"
              class="px-3 py-1 rounded-full bg-amber text-black font-semibold">
@@ -59,6 +63,7 @@
           </a>
         </div>
 
+        <!-- Dark mode toggle -->
         <button id="themeToggle"
           class="ml-2 inline-flex items-center justify-center h-8 w-8 rounded-2xl bg-slate-800 text-amber text-lg shadow hover:scale-110 active:scale-95 transition"
           aria-label="Toggle dark mode">
@@ -71,28 +76,37 @@
   <!-- MAIN -->
   <main class="relative z-10 max-w-5xl mx-auto px-4 pb-16">
 
-    <!-- HOME -->
+    <!-- HERO · SOLO INTRO, SIN FORMULARIO -->
     <section class="mt-10 grid gap-8 md:grid-cols-[1.2fr,1fr] items-center">
+      <!-- Texto -->
       <div class="space-y-4">
         <p class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-sky-300">
-          <span class="h-[1px] w-8 bg-sky-400"></span> Welcome · Inicio
+          <span class="h-[1px] w-8 bg-sky-400"></span> Welcome · Home
         </p>
         <h2 class="text-3xl md:text-4xl font-bold leading-tight">
-          Collect <span class="text-amber">memories</span>, not just <span class="text-sky-300">stamps</span>.
+          A small travel journal built  
+          while learning <span class="text-amber">web development</span>.
         </h2>
         <p class="text-sm text-slate-200/90 max-w-lg">
-          This is a travel-themed webpage created as a web development exercise. Here you can explore
-          destinations, a small gallery and a simple contact form – all while practicing UI and layout skills.
+          This website is a practice project: a way to explore layouts, navigation, cards,
+          galleries and UI details using real images and a travel theme.
         </p>
+
+        <!-- Botones de navegación principal -->
         <div class="flex flex-wrap gap-3 items-center">
           <a href="destinations.html"
              class="inline-flex items-center gap-2 bg-amber text-black px-4 py-2 rounded-full text-sm font-semibold shadow-lg hover:shadow-amber/70 hover:-translate-y-0.5 active:translate-y-0 transition">
-            ✈️ Go to Destinations
+            ✈️ Explore Destinations
           </a>
-          <span class="text-[11px] text-slate-300">
-            You can also visit the Gallery and Contact sections from the menu.
-          </span>
+          <a href="gallery.html"
+             class="inline-flex items-center gap-2 border border-sky-400 text-sky-200 px-4 py-2 rounded-full text-sm font-semibold hover:bg-sky-500/20 hover:-translate-y-0.5 active:translate-y-0 transition">
+            🖼 View Gallery
+          </a>
         </div>
+
+        <p class="text-[11px] text-slate-300">
+          Need to “plan” a trip or test a form? Visit the <a href="contact.html" class="underline text-amber">Contact page</a>.
+        </p>
       </div>
 
       <!-- Imagen hero -->
@@ -105,35 +119,93 @@
           <div class="absolute bottom-4 left-4 right-4 text-white">
             <h3 class="text-xl font-semibold mb-1">Night lights, new stories.</h3>
             <p class="text-[12px] text-sky-100">
-              Imagine walking through new cities, collecting moments and learning by building UIs.
+              Imagine walking through new cities, collecting ideas and turning them into code.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ABOUT -->
+    <!-- HIGHLIGHTS · TARJETAS QUE APUNTAN A CADA PÁGINA -->
+    <section class="mt-16">
+      <h3 class="text-2xl font-semibold mb-3">Explore the website</h3>
+      <p class="text-sm text-slate-200/90 mb-5 max-w-xl">
+        The project is organized into different pages, each one focused on a part of the travel theme.
+        You can use this structure later as a base for a real portfolio.
+      </p>
+
+      <div class="grid gap-5 md:grid-cols-3">
+        <!-- Destinations card -->
+        <a href="destinations.html"
+           class="group rounded-2xl bg-slate-950/80 backdrop-blur-xl border border-slate-700/80 p-4 shadow-xl hover:border-amber/70 hover:-translate-y-1 hover:shadow-amber/40 transition flex flex-col">
+          <div class="relative overflow-hidden rounded-xl mb-3 h-28">
+            <img src="./Munich.jpg" alt="Destinations"
+                 class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+            <span class="absolute bottom-2 left-2 text-[11px] bg-amber/90 text-black px-2 py-0.5 rounded-full">
+              Destinations
+            </span>
+          </div>
+          <h4 class="text-sm font-semibold mb-1">Destinations Page</h4>
+          <p class="text-[12px] text-slate-300">
+            Cards for Munich, Kyoto and Rio with short descriptions and bullet points.
+          </p>
+        </a>
+
+        <!-- Gallery card -->
+        <a href="gallery.html"
+           class="group rounded-2xl bg-slate-950/80 backdrop-blur-xl border border-slate-700/80 p-4 shadow-xl hover:border-amber/70 hover:-translate-y-1 hover:shadow-amber/40 transition flex flex-col">
+          <div class="relative overflow-hidden rounded-xl mb-3 h-28">
+            <img src="./tulips.jpg" alt="Gallery"
+                 class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+            <span class="absolute bottom-2 left-2 text-[11px] bg-sky-500/90 text-white px-2 py-0.5 rounded-full">
+              Gallery
+            </span>
+          </div>
+          <h4 class="text-sm font-semibold mb-1">Gallery Page</h4>
+          <p class="text-[12px] text-slate-300">
+            A responsive grid with overlay captions for each picture.
+          </p>
+        </a>
+
+        <!-- Contact card -->
+        <a href="contact.html"
+           class="group rounded-2xl bg-slate-950/80 backdrop-blur-xl border border-slate-700/80 p-4 shadow-xl hover:border-amber/70 hover:-translate-y-1 hover:shadow-amber/40 transition flex flex-col">
+          <div class="relative overflow-hidden rounded-xl mb-3 h-28">
+            <img src="./rio.jpg" alt="Contact"
+                 class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+            <span class="absolute bottom-2 left-2 text-[11px] bg-emerald-500/90 text-white px-2 py-0.5 rounded-full">
+              Contact
+            </span>
+          </div>
+          <h4 class="text-sm font-semibold mb-1">Contact Page</h4>
+          <p class="text-[12px] text-slate-300">
+            A demo form where users can enter name, email, dream destination and a message.
+          </p>
+        </a>
+      </div>
+    </section>
+
+    <!-- ABOUT PROJECT · BREVE -->
     <section class="mt-16">
       <div
         class="rounded-3xl bg-slate-950/85 backdrop-blur-2xl border border-slate-700/70 shadow-[0_18px_80px_rgba(0,0,0,0.8)] p-6 md:p-8 space-y-4">
-        <h3 class="text-2xl font-semibold mb-2">About this Project</h3>
+        <h3 class="text-2xl font-semibold mb-2">About this project</h3>
         <p class="text-sm text-slate-200/90">
-          <strong>My Travel Adventures</strong> is a mini website designed to practice front-end development
-          skills. It includes a navigation bar, multiple pages, cards, a gallery and a form – all styled
-          with Tailwind CSS.
-        </p>
-        <p class="text-sm text-slate-200/90">
-          The structure is divided into separate pages:
+          <strong>My Travel Adventures</strong> was built as a web development exercise.
+          It focuses on:
         </p>
         <ul class="text-sm text-slate-200/90 list-disc list-inside space-y-1">
-          <li><strong>Home:</strong> introduction and overview.</li>
-          <li><strong>Destinations:</strong> a set of travel cards with hover effects.</li>
-          <li><strong>Gallery:</strong> image grid with simple overlays.</li>
-          <li><strong>Contact:</strong> a demo form to “plan” a future trip.</li>
+          <li>Creating a multi-page layout with a shared navigation bar.</li>
+          <li>Designing hero sections, cards and image galleries.</li>
+          <li>Using Tailwind CSS for quick, responsive styling.</li>
+          <li>Practicing UI thinking with a simple, fun theme (travel).</li>
         </ul>
         <p class="text-sm text-slate-200/90">
-          You can reuse this layout later as a personal portfolio, by replacing travel content with your
-          projects, skills and links.
+          Later, this structure can be adapted into a real portfolio by replacing destinations and photos
+          with projects, skills and links.
         </p>
       </div>
     </section>
@@ -143,6 +215,7 @@
     My Travel Adventures · Home · Built as a web development project
   </footer>
 
+  <!-- Dark mode script -->
   <script>
     const root = document.documentElement;
     const toggleBtn = document.getElementById('themeToggle');
